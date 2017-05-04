@@ -23,11 +23,15 @@ namespace TP3
     Text text = null;
 
     // Propriétés pour la partie
-    float totalTime = 0;    
-        
+    float totalTime = 0;
+
     // Il en manque BEAUCOUP
 
+    //Ajout des listes du contenu du jeu
+    List<Star> stars = new List<Star>();
     
+    //Ajout des étoiles initiales dans le jeu
+
     private void OnClose(object sender, EventArgs e)
     {
       RenderWindow window = (RenderWindow)sender;
@@ -54,6 +58,11 @@ namespace TP3
 
     public void Run()
     {
+      //Ajouter le contenu initial dans la liste des étoiles
+      for (int i=0; i < 100; i++)
+      {
+        stars.Add(new Star((r.Next(0, WIDTH)), r.Next(0, r.Next(0, HEIGHT)), DELTA_T));
+      }
       // ppoulin
       // Chargement de la StringTable. A décommenter au moment opportun
       //if( ErrorCode.OK == StringTable.GetInstance().Parse(File.ReadAllText("Data/st.txt")) )
@@ -77,8 +86,11 @@ namespace TP3
        
 
 
-       // Parcourez les listes appropriées pour faire afficher les éléments demandés.
-
+       // Parcourir les listes appropriées pour faire afficher les éléments demandés.
+       foreach (Star etoile in stars)
+       {
+        etoile.Draw(window);
+       }
        
 
       // Affichage des statistiques. A décommenter au moment opportun

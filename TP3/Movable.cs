@@ -31,7 +31,7 @@ namespace TP3
 
     public float Speed { get; set; }
     public Movable(float posX, float posY, uint nbVertices, Color color, float speed)
-      : base(posX, posY, nbVertices, color)
+    :base(posX, posY, nbVertices, color)
     {
       Angle = 0;
       IsAlive = true;

@@ -1,0 +1,2 @@
+﻿ID_TOTAL_TIME==>Temps total---Total time
+ID_LIFE==>Vie---Life

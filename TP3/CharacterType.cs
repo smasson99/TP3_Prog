@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace TP3
 {
-
+  public enum CharacterType
+  {
+    ENNEMI,
+    HERO
+  }
 }
