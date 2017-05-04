@@ -70,7 +70,7 @@ namespace TP3
     /// </summary>
     static Character()
     {
-      fireSound = new Music(@"Fire_normal.wav");
+      fireSound = new Music(@"data//Fire_normal.wav");
     }
     /// <summary>
     /// Constructeur dont le rôle est d'initialiser les propriétés de base

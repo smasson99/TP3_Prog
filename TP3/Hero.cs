@@ -9,5 +9,69 @@ using SFML.Window;
 using SFML.Audio;
 namespace TP3
 {
+  public class Hero:Character
+  {
+    public static float HeroSpeed = 0.2f;
+    private bool isAlive;
+    public const int LIFE_AT_BEGINING = 8000;
+    private int life;
+    private ConvexShape shape;
 
+    private double length;
+    private double height;
+
+    static Color HeroColor = Color.Green;
+    private int nbBombs;
+    Music soundBomb;
+
+    public int Life
+    {
+      get
+      {
+        return life;
+      }
+      set
+      {
+        life = value;
+      }
+    }
+    public override bool IsAlive
+    {
+      get
+      {
+        return isAlive;
+      }
+    }
+
+
+    public Hero(Single posX, Single posY)
+    :base(posX, posY, 3, HeroColor, HeroSpeed,CharacterType.HERO)
+    {
+      //Initialisation des varibles de base
+      life = LIFE_AT_BEGINING;
+      isAlive = true;
+      nbBombs = 3;
+      soundBomb = new Music(@"data//Fire_smartbomb.wav");
+      //Création de la forme du joueur
+      length = 100;
+      height = 100;
+      shape = new ConvexShape(3);
+      //Initialisation visuelle du joueur
+      height = (float)Math.Sqrt(length * length - length * length * 0.25);
+      shape.SetPoint(0, new Vector2f((float)length / 2, 0));
+      shape.SetPoint(1, new Vector2f((float)length, (float)height));
+      shape.SetPoint(2, new Vector2f(0, (float)height));
+      shape.Position = new Vector2f(posX, posY);
+      shape.FillColor = HeroColor;
+    }
+    public bool Update(Single deltaT, GW gw)
+    {
+      //A COMPLETER
+      return true;
+    }
+    private void FireBomb(GW gw)
+    {
+      //A COMPLETER
+    }
+  }
 }

@@ -29,8 +29,9 @@ namespace TP3
 
     //Ajout des listes du contenu du jeu
     List<Star> stars = new List<Star>();
-    
-    //Ajout des étoiles initiales dans le jeu
+
+    //Ajout du joueur:
+    Hero hero = new Hero(WIDTH/2, HEIGHT/2);
 
     private void OnClose(object sender, EventArgs e)
     {
@@ -83,15 +84,13 @@ namespace TP3
     
     public void Draw()
     {
-       
-
-
-       // Parcourir les listes appropriées pour faire afficher les éléments demandés.
-       foreach (Star etoile in stars)
-       {
-        etoile.Draw(window);
-       }
-       
+      hero.Draw(window);
+      // Parcourir les listes appropriées pour faire afficher les éléments demandés.
+      foreach (Star etoile in stars)
+      {
+       etoile.Draw(window);
+      }
+      
 
       // Affichage des statistiques. A décommenter au moment opportun
       // Temps total
