@@ -84,13 +84,12 @@ namespace TP3
     
     public void Draw()
     {
-      hero.Draw(window);
       // Parcourir les listes appropriées pour faire afficher les éléments demandés.
       foreach (Star etoile in stars)
       {
        etoile.Draw(window);
       }
-      
+      hero.Draw(window);
 
       // Affichage des statistiques. A décommenter au moment opportun
       // Temps total
@@ -138,9 +137,9 @@ namespace TP3
       #endregion
       #region Updates
       // Étoiles      
-
-      // Personnages et projectiles      
       
+      // Personnages et projectiles      
+      hero.Update(DELTA_T, this);
       #endregion
       #region Gestion des collisions
       #endregion           
