@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
+using System.Drawing;
 
 namespace TP3
 {
@@ -16,7 +17,7 @@ namespace TP3
     public const int STAR_WIDTH = 4;
     public const int STAR_HEIGHT = 4;
     //Les propriétés statiques
-    private static Color[] colors = new Color[] { Color.Blue, Color.Green, Color.Red, Color.Yellow };
+    private static Color[] colors = new Color[] { Color.White, new Color(226, 122, 18), new Color(232, 244, 249), new Color(255, 170, 0), new Color(255, 93, 0) };
     private static RectangleShape shape;
     private static Random rnd = new Random();
     //Les propriétés normales
@@ -82,15 +83,49 @@ namespace TP3
       //Donner une couleur à l'étoile
       shape.FillColor = colors[colorType];
       shape.Position = new Vector2f(PositionX, PositionY);
+      if (rnd.Next(0, 100) < 5)
+      {
+        shape.FillColor = colors[rnd.Next(0, colors.Length)];
+      }
       window.Draw(shape);
     }
     public void Respawn()
     {
-      //À COMPLETE
+      if (PositionX > GW.WIDTH)
+      {
+        colorType = rnd.Next(0, colors.Length);
+        shape.FillColor = colors[colorType];
+        PositionX = 0;
+        PositionY = rnd.Next(0, GW.HEIGHT);
+      }
+      else if (PositionX < 0)
+      {
+        colorType = rnd.Next(0, colors.Length);
+        shape.FillColor = colors[colorType];
+        PositionX = GW.WIDTH;
+        PositionY = rnd.Next(0, GW.HEIGHT);
+      }
+      else if (PositionY < 0)
+      {
+        colorType = rnd.Next(0, colors.Length);
+        shape.FillColor = colors[colorType];
+        PositionY = GW.HEIGHT;
+        PositionX = rnd.Next(0, GW.WIDTH);
+      }
+      else if (PositionY > GW.HEIGHT)
+      {
+        colorType = rnd.Next(0, colors.Length);
+        shape.FillColor = colors[colorType];
+        PositionY = 0;
+        PositionX = rnd.Next(0, GW.WIDTH);
+      }
     }
     public void Update(Single deltaT, Vector2f direction)
     {
-      //À COMPLETE
+      PositionX = PositionX - direction.X;
+      PositionY = PositionY - direction.Y;
+      shape.Position = new Vector2f(PositionX, PositionY);
+      Respawn();
     }
     #endregion
   }

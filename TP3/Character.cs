@@ -16,41 +16,13 @@ namespace TP3
     //Propriétés privées
     private CharacterType type;
     private Color color;
-    private Vector2f position;
+    //private Vector2f position;
     private float speed;
     private DateTime lastFire;
     //Propriétés protected
     protected double fireDelay;
 
     //Propriétés C#
-    /// <summary>
-    /// Représente la position en X du personnage
-    /// </summary>
-    public float PositionX
-    {
-      get
-      {
-        return position.X;
-      }
-      set
-      {
-        position.X = value;
-      }
-    }
-    /// <summary>
-    /// Représente la position en Y du personnage
-    /// </summary>
-    public float PositionY
-    {
-      get
-      {
-        return position.Y;
-      }
-      set
-      {
-        position.Y = value;
-      }
-    }
     /// <summary>
     /// Représente le type de personnage du personnage
     /// </summary>
@@ -87,8 +59,6 @@ namespace TP3
     :base(posX, posY, nbVertices, color, speed)
     {
       //Initialisation des variables de base
-      PositionX = posX;
-      PositionY = posY;
       this.speed = speed;
       this.color = color;
       this.type = type;
@@ -108,6 +78,10 @@ namespace TP3
     protected override void Advance(Single nbPixels)
     {
       base.Advance(nbPixels);
+      //Si la position est hors de l'écran, rester la position à son maxium ou à son minimum
+      float x = Math.Max(45, Math.Min(Position.X, GW.WIDTH-45));
+      float y = Math.Max(45, Math.Min(Position.Y, GW.HEIGHT-45));
+      Position = new Vector2f(x, y);
     }
     /// <summary>
     /// Fonction dont le rôle est de tirer un projectile.
@@ -117,7 +91,7 @@ namespace TP3
     /// du jeu</param>
     public void Fire(GW gw, Single deltaT)
     {
-      //A COMPLETER
+      gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed));
     }
     #endregion
   }

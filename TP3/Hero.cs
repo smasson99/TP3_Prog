@@ -11,19 +11,22 @@ namespace TP3
 {
   public class Hero:Character
   {
+    #region:Propriétés
+    //Propriétés statiques
     public static float HeroSpeed = 0.2f;
-    private bool isAlive;
-    public const int LIFE_AT_BEGINING = 8000;
-    private int life;
-    //private ConvexShape shape;
-
-    //private double length;
-    //private double height;
-
     static Color HeroColor = Color.Green;
+    //Propriétés privées
+    private bool isAlive;
+    private int life;
     private int nbBombs;
-    Music soundBomb;
-
+    private Music soundBomb;
+    //Propriétés publiques
+    public const int LIFE_AT_BEGINING = 8000;
+    
+    //Propriétés C#
+    /// <summary>
+    /// Propriété C# représentant la vie restante du joueur 
+    /// </summary>
     public int Life
     {
       get
@@ -35,6 +38,9 @@ namespace TP3
         life = value;
       }
     }
+    /// <summary>
+    /// Propriété C# en lecture seule indiquant si le joueur est en vie ou non
+    /// </summary>
     public override bool IsAlive
     {
       get
@@ -42,8 +48,13 @@ namespace TP3
         return isAlive;
       }
     }
+    #endregion
 
-
+    /// <summary>
+    /// Constructeur dont le rôle est d'instancier le joueur
+    /// </summary>
+    /// <param name="posX">Position en X du joueur</param>
+    /// <param name="posY">Position en Y du joueur</param>
     public Hero(Single posX, Single posY)
     :base(posX, posY, 3, HeroColor, HeroSpeed,CharacterType.HERO)
     {
@@ -52,14 +63,10 @@ namespace TP3
       isAlive = true;
       nbBombs = 3;
       soundBomb = new Music(@"data//Fire_smartbomb.wav");
-      //Création de la forme du joueur
-      //length = 100;
-      //height = 100;
       
       ////Initialisation visuelle du joueur
-      //height = (float)Math.Sqrt(length * length - length * length * 0.25);
       this[0]= new Vector2f(-10,20);
-      this[1]= new Vector2f(70,0);
+      this[1]= new Vector2f(50,0);
       this[2]=new Vector2f(-10,-20);
 
     }
@@ -82,7 +89,11 @@ namespace TP3
       {
         Rotate(5);
       }
-      return true;
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+      {
+        Fire(gw, deltaT);
+      }
+      return isAlive;
     }
     private void FireBomb(GW gw)
     {

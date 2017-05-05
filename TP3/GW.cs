@@ -29,6 +29,8 @@ namespace TP3
 
     //Ajout des listes du contenu du jeu
     List<Star> stars = new List<Star>();
+    List<Projectile> projectiles = new List<Projectile>();
+    List<Projectile> projectilesADetruire = new List<Projectile>();
 
     //Ajout du joueur:
     Hero hero = new Hero(WIDTH/2, HEIGHT/2);
@@ -52,22 +54,20 @@ namespace TP3
       window.KeyPressed += new EventHandler<KeyEventArgs>(OnKeyPressed);
       window.SetKeyRepeatEnabled(false);
       window.SetFramerateLimit(FRAME_LIMIT);
-      
-      
     }
 
 
     public void Run()
     {
       //Ajouter le contenu initial dans la liste des étoiles
-      for (int i=0; i < 100; i++)
+      for (int i=0; i < 250; i++)
       {
         stars.Add(new Star((r.Next(0, WIDTH)), r.Next(0, r.Next(0, HEIGHT)), DELTA_T));
       }
       // ppoulin
       // Chargement de la StringTable. A décommenter au moment opportun
       //if( ErrorCode.OK == StringTable.GetInstance().Parse(File.ReadAllText("Data/st.txt")) )
-      {
+      //{
         window.SetActive();
         
         while (window.IsOpen)
@@ -79,7 +79,7 @@ namespace TP3
           Draw();
           window.Display();
         }
-      }
+      //}
     }
     
     public void Draw()
@@ -89,6 +89,11 @@ namespace TP3
       {
        etoile.Draw(window);
       }
+      foreach (Projectile projectile in projectiles)
+      {
+        projectile.Draw(window);
+      }
+      //Afficher le héro:
       hero.Draw(window);
 
       // Affichage des statistiques. A décommenter au moment opportun
@@ -126,6 +131,16 @@ namespace TP3
       
     }
 
+    /// <summary>
+    /// Fonction dont le rôle est d'ajouter un projectile à la
+    /// liste des projectiles courants
+    /// </summary>
+    /// <param name="projectile"></param>
+    public void AddProjectile(Projectile projectile)
+    {
+      projectiles.Add(projectile);
+    }
+
     public bool Update()
     {
       // A compléter
@@ -137,22 +152,40 @@ namespace TP3
       #endregion
       #region Updates
       // Étoiles      
-      
-      // Personnages et projectiles      
+      foreach (Star etoile in stars)
+      {
+        etoile.Update(DELTA_T, hero.Direction);
+      }
+      // Personnages et projectiles
+      foreach (Projectile projectile in projectiles)
+      {
+        bool nePasDetruire = projectile.Update(DELTA_T, this);
+        if (nePasDetruire == false)
+        {
+          projectilesADetruire.Add(projectile);
+        }
+      }
       hero.Update(DELTA_T, this);
-      #endregion
+            #endregion
       #region Gestion des collisions
-      #endregion           
+            #endregion
       #region Retraits
       // Retrait des ennemis détruits et des projectiles inutiles
+      foreach (Projectile toDelete in projectilesADetruire)
+      {
+       if (projectilesADetruire.Contains(toDelete))
+       {
+           projectiles.Remove(toDelete);
+       }
+      }
       #endregion
       #region Spawning des nouveaux ennemis
-      // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
-      #endregion
+            // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
+            #endregion
       #region Ajouts
-      // Ajouts des projectiles, ennemis, etc
-      #endregion
-      
+            // Ajouts des projectiles, ennemis, etc
+            #endregion
+
       // ppoulin 
       // A COMPLETER
       // Retourner true si le héros est en vie, false sinon.
