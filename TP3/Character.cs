@@ -91,7 +91,7 @@ namespace TP3
     /// du jeu</param>
     public void Fire(GW gw, Single deltaT)
     {
-      gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed));
+      gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed, Angle));
     }
     #endregion
   }

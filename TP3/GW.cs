@@ -11,6 +11,7 @@ namespace TP3
   public class GW
   {
     // Constantes et propriétés statiques
+    private Language currentLanguage;
     public const int WIDTH = 1024;
     public const int HEIGHT = 768;
     public const uint FRAME_LIMIT = 60;
@@ -99,12 +100,12 @@ namespace TP3
       // Affichage des statistiques. A décommenter au moment opportun
       // Temps total
       //text.Position = new Vector2f(0, 10);
-      //text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime)).ToString(), StringTable.GetInstance().GetValue(CurrentLanguage, "ID_TOTAL_TIME"));
+      //text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
       //window.Draw(text);
 
       // Points de vie
       //text.Position = new Vector2f(0, 50);
-      //text.DisplayedString = string.Format("{1} = {0,-4}", hero.Life.ToString(), StringTable.GetInstance().GetValue(CurrentLanguage,"ID_LIFE"));
+      //text.DisplayedString = string.Format("{1} = {0,-4}", hero.Life.ToString(), StringTable.GetInstance().GetValue(currentLanguage,"ID_LIFE"));
       //window.Draw(text);
     }
 
@@ -178,6 +179,7 @@ namespace TP3
            projectiles.Remove(toDelete);
        }
       }
+      projectilesADetruire = new List<Projectile>();
       #endregion
       #region Spawning des nouveaux ennemis
             // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
@@ -185,11 +187,11 @@ namespace TP3
       #region Ajouts
             // Ajouts des projectiles, ennemis, etc
             #endregion
-
+      
       // ppoulin 
       // A COMPLETER
       // Retourner true si le héros est en vie, false sinon.
-      return true;
+      return hero.IsAlive;
     }
   }
 }

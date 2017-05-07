@@ -21,17 +21,18 @@ namespace TP3
     }
 
 
-    public Projectile(CharacterType type, float posX, float posY, uint nbVertices, Color color, float speed)
+    public Projectile(CharacterType type, float posX, float posY, uint nbVertices, Color color, float speed, float angle)
     : base(posX, posY, nbVertices, color, speed)
     {
       //Initialisation des variables
+      Angle = angle;
       this.type = type;
       ProjectileSpeed = speed;
       ////Initialisation visuelle du projectile
       this[0] = new Vector2f(0, 0);
-      this[1] = new Vector2f(10, 0);
-      this[2] = new Vector2f(0, 10);
-      this[3] = new Vector2f(10, 10);
+      this[1] = new Vector2f(7, 0);
+      this[2] = new Vector2f(0, 7);
+      this[3] = new Vector2f(7, 7);
     }
 
     public bool Update(Single deltaT, GW gw)
@@ -44,7 +45,7 @@ namespace TP3
       {
         Advance(5);
         return true;
-      } 
+      }
     }
   }
 }
