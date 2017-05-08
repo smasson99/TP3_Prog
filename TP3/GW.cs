@@ -46,6 +46,8 @@ namespace TP3
     List<Star> stars = new List<Star>();
     List<Projectile> projectiles = new List<Projectile>();
     List<Projectile> projectilesADetruire = new List<Projectile>();
+    List<Particle> particules = new List<Particle>();
+    List<Particle> particulesADetruire = new List<Particle>();
 
     //Ajout du joueur:
     Hero hero = new Hero(WIDTH/2, HEIGHT/2);
@@ -99,7 +101,7 @@ namespace TP3
     
     public void Draw()
     {
-      // Parcourir les listes appropriées pour faire afficher les éléments demandés.
+      // Parcourir les listes appropriées pour faire afficher les éléments souhaités.
       foreach (Star etoile in stars)
       {
        etoile.Draw(window);
@@ -107,6 +109,10 @@ namespace TP3
       foreach (Projectile projectile in projectiles)
       {
         projectile.Draw(window);
+      }
+      foreach (Particle particule in particules)
+      {
+        particule.Draw(window);
       }
       //Afficher le héro:
       hero.Draw(window);
@@ -155,6 +161,10 @@ namespace TP3
     {
       projectiles.Add(projectile);
     }
+    public void AddParticle(Particle particule)
+    {
+      particules.Add(particule);
+    }
 
     public bool Update()
     {
@@ -177,7 +187,7 @@ namespace TP3
       {
         etoile.Update(SpeedBuff, hero.Direction);
       }
-      // Personnages et projectiles
+      // Projectiles
       foreach (Projectile projectile in projectiles)
       {
         bool nePasDetruire = projectile.Update(DELTA_T, this);
@@ -186,12 +196,22 @@ namespace TP3
           projectilesADetruire.Add(projectile);
         }
       }
+      //Personnages
       hero.Update(DELTA_T, this);
-            #endregion
+      //Particules
+      foreach (Particle particule in particules)
+      {
+        bool nePasDetruire = particule.Update(this);
+        if (nePasDetruire == false)
+        {
+          particulesADetruire.Add(particule);
+        }
+      }
+      #endregion
       #region Gestion des collisions
-            #endregion
+      #endregion
       #region Retraits
-      // Retrait des ennemis détruits et des projectiles inutiles
+      // Retrait des ennemis détruits, des projectiles inutiles, et des particules inutiles
       foreach (Projectile toDelete in projectilesADetruire)
       {
        if (projectilesADetruire.Contains(toDelete))
@@ -199,14 +219,22 @@ namespace TP3
            projectiles.Remove(toDelete);
        }
       }
+      //Sauver la mémoire en rénitialisant la liste
       projectilesADetruire = new List<Projectile>();
+      foreach (Particle toDelete in particulesADetruire)
+      {
+        if (particulesADetruire.Contains(toDelete))
+          particules.Remove(toDelete);
+      }
+      particulesADetruire = new List<Particle>();
       #endregion
       #region Spawning des nouveaux ennemis
             // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
-            #endregion
+      #endregion
       #region Ajouts
             // Ajouts des projectiles, ennemis, etc
-            #endregion
+
+      #endregion
       
       // ppoulin 
       // A COMPLETER

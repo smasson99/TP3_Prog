@@ -67,7 +67,7 @@ namespace TP3
       ////Initialisation visuelle du joueur
       this[0]= new Vector2f(-10,20);
       this[1]= new Vector2f(50, 0);
-      this[2]=new Vector2f(-10,-20);
+      this[2]= new Vector2f(-10,-20);
 
     }
     public bool Update(Single deltaT, GW gw)

@@ -10,6 +10,7 @@ namespace TP3
   public class Projectile:Movable
   {
     private CharacterType type;
+    private Color color;
     static float ProjectileSpeed;
     
 
@@ -28,6 +29,7 @@ namespace TP3
       Angle = angle;
       this.type = type;
       ProjectileSpeed = speed;
+      this.color = color;
       ////Initialisation visuelle du projectile
       this[0] = new Vector2f(-3.5f, -3.5f);
       this[2] = new Vector2f(3.5f, 3.5f);
@@ -43,7 +45,8 @@ namespace TP3
       }
       else
       {
-        Advance(7.50f);
+        gw.AddParticle(new Particle(Position.X, Position.Y, 4, color, 3.50f, true));
+        Advance(ProjectileSpeed);
         return true;
       }
     }

@@ -101,7 +101,7 @@ namespace TP3
         //Jouer l'effet sonore de tir
         fireSound.Play();
         //Ajouter le projectile (tirer)
-        gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed, Angle));
+        gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, 7.50f, Angle));
         return true;
       }
       else
