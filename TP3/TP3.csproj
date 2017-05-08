@@ -68,6 +68,7 @@
     <Compile Include="Hero.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Movable.cs" />
+    <Compile Include="Particle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

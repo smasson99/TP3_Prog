@@ -75,19 +75,19 @@ namespace TP3
       //A COMPLETER
       if(Keyboard.IsKeyPressed(Keyboard.Key.Up))
       {
-        Advance(5);
+        Advance(4.50f);
       }
       if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
       {
-        Advance(-5);
+        Advance(-4.50f);
       }
       if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
       {
-        Rotate(-5);
+        Rotate(-4.50f);
       }
       if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
       {
-        Rotate(5);
+        Rotate(4.50f);
       }
       if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
       {

@@ -15,6 +15,7 @@ namespace TP3
     public const int WIDTH = 1024;
     public const int HEIGHT = 768;
     public const uint FRAME_LIMIT = 60;
+    public float speedBuff = 1.00f;
     const float DELTA_T = 1.0f / (float)FRAME_LIMIT;
     private static Random r = new Random();
 
@@ -27,6 +28,19 @@ namespace TP3
     float totalTime = 0;
 
     // Il en manque BEAUCOUP
+
+    //Ajout de propriétés C#
+    public float SpeedBuff
+    {
+      get
+      {
+        return speedBuff;
+      }
+      set
+      {
+        speedBuff = value;
+      }
+    }
 
     //Ajout des listes du contenu du jeu
     List<Star> stars = new List<Star>();
@@ -152,10 +166,16 @@ namespace TP3
       // Écrire le code pertinent pour faire exploser les bombes
       #endregion
       #region Updates
-      // Étoiles      
+      // Étoiles 
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.Down))
+        speedBuff = 4.50f;
+      else if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.Right))
+        speedBuff = 0.50f;
+      else
+        speedBuff = 1.00f;
       foreach (Star etoile in stars)
       {
-        etoile.Update(DELTA_T, hero.Direction);
+        etoile.Update(SpeedBuff, hero.Direction);
       }
       // Personnages et projectiles
       foreach (Projectile projectile in projectiles)

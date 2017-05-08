@@ -16,13 +16,13 @@ namespace TP3
     //Propriétés privées
     private CharacterType type;
     private Color color;
-    //private Vector2f position;
+    //private Vector2f position
     private float speed;
     private DateTime lastFire;
     //Propriétés protected
-    protected double fireDelay;
+    protected double fireDelay = 0.25;
 
-    //Propriétés C#
+    //Propriétés C#2
     /// <summary>
     /// Représente le type de personnage du personnage
     /// </summary>
@@ -43,6 +43,7 @@ namespace TP3
     static Character()
     {
       fireSound = new Music(@"data//Fire_normal.wav");
+      fireSound.Volume = 0.85f;
     }
     /// <summary>
     /// Constructeur dont le rôle est d'initialiser les propriétés de base
@@ -89,9 +90,24 @@ namespace TP3
     /// <param name="gw">Le jeu (motteur)</param>
     /// <param name="deltaT">Représente le multiplicateur de vitesse de rafraichissement
     /// du jeu</param>
-    public void Fire(GW gw, Single deltaT)
+    /// <return>Retourne un booléen vallant Vrai si le tir est fait et Faux si le tir n'est pas fait </return>
+    public bool Fire(GW gw, Single deltaT)
     {
-      gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed, Angle));
+      //Si la demande de tir est supérieure ou égale au dernier moment de tir + la cadence, alors
+      if (DateTime.Now >= lastFire.AddSeconds(fireDelay))
+      {
+        //Le dernier moment de tir:
+        lastFire = DateTime.Now;
+        //Jouer l'effet sonore de tir
+        fireSound.Play();
+        //Ajouter le projectile (tirer)
+        gw.AddProjectile(new Projectile(type, Position.X, Position.Y, 4, Color.Red, speed, Angle));
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
     #endregion
   }

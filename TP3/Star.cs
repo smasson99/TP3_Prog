@@ -122,8 +122,8 @@ namespace TP3
     }
     public void Update(Single deltaT, Vector2f direction)
     {
-      PositionX = PositionX - direction.X;
-      PositionY = PositionY - direction.Y;
+      PositionX = PositionX - direction.X *deltaT;
+      PositionY = PositionY - direction.Y *deltaT;
       shape.Position = new Vector2f(PositionX, PositionY);
       Respawn();
     }
