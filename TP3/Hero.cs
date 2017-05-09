@@ -20,6 +20,7 @@ namespace TP3
     private int life;
     private int nbBombs;
     private Music soundBomb;
+    private static Random rnd = new Random();
     //Propriétés publiques
     public const int LIFE_AT_BEGINING = 8000;
     
@@ -65,27 +66,32 @@ namespace TP3
       soundBomb = new Music(@"data//Fire_smartbomb.wav");
       
       ////Initialisation visuelle du joueur
-      this[0]= new Vector2f(-10,20);
+      this[0]= new Vector2f(-6,20);
       this[1]= new Vector2f(50, 0);
-      this[2]= new Vector2f(-10,-20);
-
+      this[2]= new Vector2f(-6,-20);
     }
     public bool Update(Single deltaT, GW gw)
     {
       //A COMPLETER
-      if(Keyboard.IsKeyPressed(Keyboard.Key.Up))
+      //Initialisation de l'effet de particule
+      gw.AddParticle(new Particle(Position.X-12.50f, Position.Y-10.50f, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B, (byte)rnd.Next(25, 225+1)), 25.00f, true, 0.07f));
+      if (gw.PlayerIdle)
+      {
+        Advance(2);
+      }
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.W))
       {
         Advance(4.50f);
       }
-      if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Down) || Keyboard.IsKeyPressed(Keyboard.Key.S))
       {
         Advance(-4.50f);
       }
-      if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.A))
       {
         Rotate(-4.50f);
       }
-      if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Right) || Keyboard.IsKeyPressed(Keyboard.Key.D))
       {
         Rotate(4.50f);
       }

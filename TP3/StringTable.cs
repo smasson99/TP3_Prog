@@ -4,9 +4,12 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
-using System.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Diagnostics;
+using System.IO;
 
 namespace TP3
 {
@@ -24,13 +27,35 @@ namespace TP3
         }
         private StringTable()
         {
-
+          
         }
-        //public string GetValue(Language currentLanguage, string iD)
-        //{
-        //    string trier = file;
-        //    string resultat = 
+    public string GetValue(Language currentlanguage, string id)
+    {
+      //Initialisation des variables nécessaires
+      string[] lignes = File.ReadAllLines(file);
+      string resultat = "";
+      //Trie du tableau pour trouver l'ID correspondant
+      for (int position = 0; position < lignes.Length; position++)
+      {
+        if (lignes[position].Substring(0, lignes[position].IndexOf('=')) == id)
+        {
+          if ((int)currentlanguage == 0) //Français
+          {
+            int length = lignes[position].Length;
+            int pos01 = lignes[position].IndexOf('>') +1;
+            int pos02 = lignes[position].IndexOf('-') - 1;
+            //resultat = lignes[position].Substring(lignes[position].IndexOf('>') + 1, (lignes[position].IndexOf('-')-1));
+          }
+          else if ((int)currentlanguage == 1) //Anglais
+          {
+            resultat = lignes[position].Substring(lignes[position].LastIndexOf('-') + 1, lignes[position].Length - 1);
+          }
+        }
+      }
+      
 
-        //}
+      return resultat; 
+
     }
+  }
 }

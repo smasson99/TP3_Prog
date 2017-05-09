@@ -12,6 +12,7 @@ namespace TP3
     private CharacterType type;
     private Color color;
     static float ProjectileSpeed;
+    private static Random rnd = new Random();
     
 
     public CharacterType Type
@@ -45,7 +46,7 @@ namespace TP3
       }
       else
       {
-        gw.AddParticle(new Particle(Position.X, Position.Y, 4, color, 3.50f, true));
+        gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(color.R, color.G, color.B, (byte)rnd.Next(25, 255 + 1)), 3.50f, true, 0.50f));
         Advance(ProjectileSpeed);
         return true;
       }

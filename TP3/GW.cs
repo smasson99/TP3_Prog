@@ -11,6 +11,7 @@ namespace TP3
   public class GW
   {
     // Constantes et propriétés statiques
+    private bool playerIdle;
     private Language currentLanguage;
     public const int WIDTH = 1024;
     public const int HEIGHT = 768;
@@ -39,6 +40,13 @@ namespace TP3
       set
       {
         speedBuff = value;
+      }
+    }
+    public bool PlayerIdle
+    {
+      get
+      {
+        return playerIdle;
       }
     }
 
@@ -119,9 +127,9 @@ namespace TP3
 
       // Affichage des statistiques. A décommenter au moment opportun
       // Temps total
-      //text.Position = new Vector2f(0, 10);
-      //text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
-      //window.Draw(text);
+      text.Position = new Vector2f(0, 10);
+      text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
+      window.Draw(text);
 
       // Points de vie
       //text.Position = new Vector2f(0, 50);
@@ -177,12 +185,18 @@ namespace TP3
       #endregion
       #region Updates
       // Étoiles 
-      if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.Down))
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.Down) || Keyboard.IsKeyPressed(Keyboard.Key.W) || Keyboard.IsKeyPressed(Keyboard.Key.S))
+      {
         speedBuff = 4.50f;
-      else if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.Right))
+        playerIdle = false;
+      }
+      else if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.Right) || Keyboard.IsKeyPressed(Keyboard.Key.A) || Keyboard.IsKeyPressed(Keyboard.Key.D))
         speedBuff = 0.50f;
       else
+      {
+        playerIdle = true;
         speedBuff = 1.00f;
+      }
       foreach (Star etoile in stars)
       {
         etoile.Update(SpeedBuff, hero.Direction);

@@ -12,16 +12,16 @@ namespace TP3
   {
     //Propriétés
     private float dureeVie;
-    private RectangleShape shape;
+    private Shape shape;
     private DateTime debutVie;
-    private DateTime finVie;
     
     //Méthodes
-    public Particle(float posX, float posY, uint nbVertices, Color color, float dimension, bool hasTexture)
+    public Particle(float posX, float posY, uint nbVertices, Color color, float dimension, bool hasTexture, float dureeVie)
     {
       //Initialisation des variables de base
-      shape = new RectangleShape(new Vector2f(dimension, dimension));
-      dureeVie = 0.5f;
+      if (nbVertices >= 4)
+        shape = new RectangleShape(new Vector2f(dimension, dimension));
+      this.dureeVie = dureeVie;
       debutVie = DateTime.Now;
       
       ////Initialisation visuelle du projectile
