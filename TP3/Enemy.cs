@@ -29,9 +29,10 @@ namespace TP3
       isSpawning = true;
       nbUpdates = 0;
     }
-    public bool Update(Single deltaT, GW gw)
+    public virtual bool Update(Single deltaT, GW gw)
     {
       //A COMPLETE
+      
       nbUpdates++;
       return true;
     }

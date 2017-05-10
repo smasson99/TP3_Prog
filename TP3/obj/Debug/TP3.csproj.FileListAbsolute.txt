@@ -58,3 +58,33 @@ C:\Users\Samuel Masson\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-graphics-2.dll
 C:\Users\Samuel Masson\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-system-2.dll
 C:\Users\Samuel Masson\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-window-2.dll
 C:\Users\Samuel Masson\Desktop\TP3_Prog\TP3\obj\Debug\TP3.csprojResolveAssemblyReference.cache
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\TP3.exe.config
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\obj\Debug\TP3.exe
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\obj\Debug\TP3.pdb
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Enemy_explode.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Enemy_spawn_blue.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Enemy_spawn_green.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Enemy_spawn_orange.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Enemy_spawn_purple.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Fire_normal.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Fire_smartbomb.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Game_over.wav
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\st.txt
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\OpenTK.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\emulogic.ttf
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\Data\Particle.tga
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\csfml-audio-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\csfml-graphics-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\csfml-network-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\csfml-system-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\csfml-window-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\libsndfile-1.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\openal32.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\TP3.exe
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\TP3.pdb
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-audio-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-graphics-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-system-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\bin\Debug\sfmlnet-window-2.dll
+C:\Users\Samuel\Desktop\TP3_Prog\TP3\obj\Debug\TP3.csprojResolveAssemblyReference.cache

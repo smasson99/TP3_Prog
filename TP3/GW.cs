@@ -57,6 +57,8 @@ namespace TP3
     List<Projectile> projectilesADetruire = new List<Projectile>();
     List<Particle> particules = new List<Particle>();
     List<Particle> particulesADetruire = new List<Particle>();
+    List<Enemy> ennemis = new List<Enemy>();
+    List<Enemy> ennemisADetruire = new List<Enemy>();
 
     //Ajout du joueur:
     Hero hero = new Hero(WIDTH/2, HEIGHT/2);
@@ -69,7 +71,14 @@ namespace TP3
     
     private void OnKeyPressed(object sender, KeyEventArgs e)
     {
-
+      if (e.Code == Keyboard.Key.G)
+      {
+        currentLanguage = Language.French;
+      }
+      else if (e.Code == Keyboard.Key.F)
+      {
+        currentLanguage = Language.English;
+      }
     }
 
     public GW()
@@ -126,7 +135,7 @@ namespace TP3
       //Afficher le héro:
       hero.Draw(window);
 
-      // Affichage des statistiques. A décommenter au moment opportun
+      // Affichage des statistiques:
       // Temps total
       text.Position = new Vector2f(0, 10);
       text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime/100)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
@@ -218,6 +227,10 @@ namespace TP3
       }
       //Personnages
       hero.Update(DELTA_T, this);
+      foreach (Enemy ennemi in ennemis)
+      {
+        ennemi.Update(DELTA_T, this);
+      }
       //Particules
       foreach (Particle particule in particules)
       {
@@ -238,6 +251,13 @@ namespace TP3
        {
            projectiles.Remove(toDelete);
        }
+      }
+      foreach (Enemy toDelete in ennemisADetruire)
+      {
+        if (ennemisADetruire.Contains(toDelete))
+        {
+          ennemis.Remove(toDelete);
+        }
       }
       //Sauver la mémoire en rénitialisant la liste
       projectilesADetruire = new List<Projectile>();
