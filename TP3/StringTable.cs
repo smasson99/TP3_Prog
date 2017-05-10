@@ -17,7 +17,7 @@ namespace TP3
     {
         //Propriétés
         private static StringTable instance;
-        private Language languageCourant;
+        //private Language languageCourant;
         private string file = (@"data//st.txt");
         public static StringTable GetInstance()
         {
