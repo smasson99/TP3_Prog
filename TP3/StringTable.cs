@@ -39,23 +39,24 @@ namespace TP3
       {
         if (lignes[position].Substring(0, lignes[position].IndexOf('=')) == id)
         {
+          //En fonction de la langue, retourner le mot qui convient
           if ((int)currentlanguage == 0) //Français
           {
-            int length = lignes[position].Length;
-            int pos01 = lignes[position].IndexOf('>') +1;
-            int pos02 = lignes[position].IndexOf('-') - 1;
-            //resultat = lignes[position].Substring(lignes[position].IndexOf('>') + 1, (lignes[position].IndexOf('-')-1));
+            int index = lignes[position].IndexOf('>')+1;
+            resultat = lignes[position].Substring(index, lignes[position].Length-index);
+            int index2 = resultat.IndexOf('-');
+            resultat = resultat.Substring(0, index2);
           }
           else if ((int)currentlanguage == 1) //Anglais
           {
-            resultat = lignes[position].Substring(lignes[position].LastIndexOf('-') + 1, lignes[position].Length - 1);
+            int index = lignes[position].IndexOf('>') + 1;
+            resultat = lignes[position].Substring(index, lignes[position].Length - index);
+            int index2 = resultat.LastIndexOf('-')+1;
+            resultat = resultat.Substring(index2, resultat.Length-index2);
           }
         }
       }
-      
-
-      return resultat; 
-
+      return resultat;
     }
   }
 }

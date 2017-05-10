@@ -46,7 +46,7 @@ namespace TP3
       }
       else
       {
-        gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(color.R, color.G, color.B, (byte)rnd.Next(25, 255 + 1)), 3.50f, true, 0.50f));
+        gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(color.R, color.G, color.B, (byte)rnd.Next(25, 255 + 1)), 3.50f, true, 0.25f));
         Advance(ProjectileSpeed);
         return true;
       }

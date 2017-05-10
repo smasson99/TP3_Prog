@@ -26,6 +26,7 @@ namespace TP3
     Text text = null;
 
     // Propriétés pour la partie
+    DateTime debut = DateTime.Now;
     float totalTime = 0;
 
     // Il en manque BEAUCOUP
@@ -128,13 +129,13 @@ namespace TP3
       // Affichage des statistiques. A décommenter au moment opportun
       // Temps total
       text.Position = new Vector2f(0, 10);
-      text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
+      text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime/100)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
       window.Draw(text);
 
       // Points de vie
-      //text.Position = new Vector2f(0, 50);
-      //text.DisplayedString = string.Format("{1} = {0,-4}", hero.Life.ToString(), StringTable.GetInstance().GetValue(currentLanguage,"ID_LIFE"));
-      //window.Draw(text);
+      text.Position = new Vector2f(0, 50);
+      text.DisplayedString = string.Format("{1} = {0,-4}", hero.Life.ToString(), StringTable.GetInstance().GetValue(currentLanguage,"ID_LIFE"));
+      window.Draw(text);
     }
 
     /// <summary>
@@ -184,6 +185,11 @@ namespace TP3
       // Écrire le code pertinent pour faire exploser les bombes
       #endregion
       #region Updates
+      //Le décompte du jeu
+      if (DateTime.Now >= debut.AddSeconds(1))
+      {
+        totalTime++;
+      }
       // Étoiles 
       if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.Down) || Keyboard.IsKeyPressed(Keyboard.Key.W) || Keyboard.IsKeyPressed(Keyboard.Key.S))
       {
