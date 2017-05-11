@@ -26,7 +26,7 @@ namespace TP3
     Text text = null;
 
     // Propriétés pour la partie
-    DateTime debut = DateTime.Now;
+    private DateTime debut = DateTime.Now;
     float totalTime = 0;
 
     // Il en manque BEAUCOUP
@@ -71,11 +71,11 @@ namespace TP3
     
     private void OnKeyPressed(object sender, KeyEventArgs e)
     {
-      if (e.Code == Keyboard.Key.G)
+      if (e.Code == Keyboard.Key.F4)
       {
         currentLanguage = Language.French;
       }
-      else if (e.Code == Keyboard.Key.F)
+      else if (e.Code == Keyboard.Key.F5)
       {
         currentLanguage = Language.English;
       }
@@ -94,7 +94,7 @@ namespace TP3
 
     public void Run()
     {
-      //Ajouter le contenu initial dans la liste des étoiles
+      //Ajout des étoiles dans le jeu
       for (int i=0; i < 250; i++)
       {
         stars.Add(new Star((r.Next(0, WIDTH)), r.Next(0, r.Next(0, HEIGHT)), DELTA_T));
@@ -134,6 +134,11 @@ namespace TP3
       }
       //Afficher le héro:
       hero.Draw(window);
+      //Afficher les ennemis
+      foreach (Enemy ennemi in ennemis)
+      {
+        ennemi.Draw(window);
+      }
 
       // Affichage des statistiques:
       // Temps total
@@ -160,9 +165,36 @@ namespace TP3
       return r.Contains(m.Position.X, m.Position.Y);
     }
 
-    private void SpawnEnemies(int nbEnemies)
+    private void SpawnEnemies(int nbNormalEnemies, int nbBasics)
     {
-      // A compléter
+      //Vérifier d'abord si le nombre d'ennemis non-basiques conviennent à 5
+      //Initialisation des variables
+      int basicsCourants = 0;
+      foreach (Enemy ennemi in ennemis)
+      {
+        if (ennemi is BasicEnemy)
+        {
+          basicsCourants++;
+        }
+      }
+      if (basicsCourants < nbBasics)
+      {
+        //Initialisation des positions
+        Vector2f[] startPositions = new Vector2f[] { new Vector2f(0, r.Next(0, HEIGHT)), new Vector2f(WIDTH, r.Next(0, HEIGHT)),
+        new Vector2f(r.Next(0, WIDTH), 0), new Vector2f(r.Next(0, WIDTH), HEIGHT) };
+        //Trouver l'angle de l'ennemi et sa position aléatoire
+        Vector2f position = startPositions[r.Next(0, startPositions.Length)];
+        float angle;
+        if (position.X == 0)
+          angle = 0.00f;
+        else if (position.X == WIDTH)
+          angle = -180.0f;
+        else if (position.Y == 0)
+          angle = 90f;
+        else //position.Y == HEIGHT
+          angle = -90;
+        ennemis.Add(new BasicEnemy(position.X, position.Y, angle));
+      }
     }
 
     public void AddBomb()
@@ -189,6 +221,29 @@ namespace TP3
       // A compléter
       #region Init
       // Vidage de toutes les listes contenant les ennemis et projectiles à ajouter et enlever.
+      foreach (Projectile toDelete in projectilesADetruire)
+      {
+        if (projectilesADetruire.Contains(toDelete))
+        {
+          projectiles.Remove(toDelete);
+        }
+      }
+      foreach (Particle toDelete in particulesADetruire)
+      {
+        if (particulesADetruire.Contains(toDelete))
+          particules.Remove(toDelete);
+      }
+      foreach (Enemy toDelete in ennemisADetruire)
+      {
+        if (ennemisADetruire.Contains(toDelete))
+        {
+          ennemis.Remove(toDelete);
+        }
+      }
+      //Sauver la mémoire en rénitialisant la liste
+      projectilesADetruire = new List<Projectile>();
+      particulesADetruire = new List<Particle>();
+      ennemisADetruire = new List<Enemy>();
       #endregion
       #region Utilisation des bombes
       // Écrire le code pertinent pour faire exploser les bombes
@@ -216,6 +271,31 @@ namespace TP3
       {
         etoile.Update(SpeedBuff, hero.Direction);
       }
+      #endregion
+      #region Gestion des collisions
+      //Collisions du joueur avec les ennemis
+      foreach (Enemy ennemi in ennemis)
+      {
+        if (hero.Intersects(ennemi))
+        {
+          ennemisADetruire.Add(ennemi);
+          hero.Life = hero.Life - 10;
+        }
+      }
+      //Collisions des projectiles du joueur avec les ennemis
+      foreach (Projectile projectile in projectiles)
+      {
+        foreach (Enemy ennemi in ennemis)
+        {
+          if (projectile.Type == CharacterType.HERO && projectile.Intersects(ennemi))
+          {
+            ennemisADetruire.Add(ennemi);
+            projectilesADetruire.Add(projectile);
+          }
+        }
+      }
+      #endregion
+      #region Retraits
       // Projectiles
       foreach (Projectile projectile in projectiles)
       {
@@ -229,7 +309,11 @@ namespace TP3
       hero.Update(DELTA_T, this);
       foreach (Enemy ennemi in ennemis)
       {
-        ennemi.Update(DELTA_T, this);
+        bool nePasDetruire = ennemi.Update(DELTA_T, this);
+        if (nePasDetruire == false)
+        {
+          ennemis.Add(ennemi);
+        }
       }
       //Particules
       foreach (Particle particule in particules)
@@ -241,43 +325,14 @@ namespace TP3
         }
       }
       #endregion
-      #region Gestion des collisions
-      #endregion
-      #region Retraits
-      // Retrait des ennemis détruits, des projectiles inutiles, et des particules inutiles
-      foreach (Projectile toDelete in projectilesADetruire)
-      {
-       if (projectilesADetruire.Contains(toDelete))
-       {
-           projectiles.Remove(toDelete);
-       }
-      }
-      foreach (Enemy toDelete in ennemisADetruire)
-      {
-        if (ennemisADetruire.Contains(toDelete))
-        {
-          ennemis.Remove(toDelete);
-        }
-      }
-      //Sauver la mémoire en rénitialisant la liste
-      projectilesADetruire = new List<Projectile>();
-      foreach (Particle toDelete in particulesADetruire)
-      {
-        if (particulesADetruire.Contains(toDelete))
-          particules.Remove(toDelete);
-      }
-      particulesADetruire = new List<Particle>();
-      #endregion
       #region Spawning des nouveaux ennemis
-            // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
+      // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
+      SpawnEnemies(5, 2);
       #endregion
       #region Ajouts
-            // Ajouts des projectiles, ennemis, etc
-
+      // Ajouts des projectiles, ennemis, etc
       #endregion
-      
-      // ppoulin 
-      // A COMPLETER
+
       // Retourner true si le héros est en vie, false sinon.
       return hero.IsAlive;
     }

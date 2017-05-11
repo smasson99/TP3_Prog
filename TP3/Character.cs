@@ -43,7 +43,7 @@ namespace TP3
     static Character()
     {
       fireSound = new Music(@"data//Fire_normal.wav");
-      fireSound.Volume = 1.25f;
+      fireSound.Volume = 15.25f;
     }
     /// <summary>
     /// Constructeur dont le rôle est d'initialiser les propriétés de base

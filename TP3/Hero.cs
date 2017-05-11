@@ -65,7 +65,7 @@ namespace TP3
       nbBombs = 3;
       soundBomb = new Music(@"data//Fire_smartbomb.wav");
       
-      ////Initialisation visuelle du joueur
+      //Initialisation visuelle du joueur
       this[0]= new Vector2f(-7,20);
       this[1]= new Vector2f(55, 0);
       this[2]= new Vector2f(-7,-20);

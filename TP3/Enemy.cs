@@ -10,15 +10,20 @@ namespace TP3
   public class Enemy:Character
   {
     //Propriétés
-    static Random rnd = new Random();
+    protected static Random rnd = new Random();
     private bool isSpawning;
     protected int nbUpdates;
+    protected Color enemyColor;
 
     protected bool IsSpawning
     {
       get
       {
         return isSpawning;
+      }
+      set
+      {
+        isSpawning = value;
       }
     }
 
@@ -27,12 +32,12 @@ namespace TP3
     {
       //Initialisation des variables
       isSpawning = true;
+      enemyColor = color;
       nbUpdates = 0;
     }
     public virtual bool Update(Single deltaT, GW gw)
     {
       //A COMPLETE
-      
       nbUpdates++;
       return true;
     }

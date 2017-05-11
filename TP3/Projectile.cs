@@ -40,7 +40,7 @@ namespace TP3
 
     public bool Update(Single deltaT, GW gw)
     {
-      if (Position.X < 0 || Position.X > GW.WIDTH || Position.Y < 0 || Position.Y > GW.HEIGHT)
+      if (gw.Contains(this) == false)
       {
         return false;
       }
