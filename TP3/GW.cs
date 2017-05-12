@@ -61,7 +61,7 @@ namespace TP3
     List<Enemy> ennemisADetruire = new List<Enemy>();
 
     //Ajout du joueur:
-    Hero hero = new Hero(WIDTH/2, HEIGHT/2);
+    public Hero hero = new Hero(WIDTH/2, HEIGHT/2);
 
     private void OnClose(object sender, EventArgs e)
     {
@@ -280,6 +280,7 @@ namespace TP3
         {
           ennemisADetruire.Add(ennemi);
           hero.Life = hero.Life - 10;
+          ennemi.PlayDeath();
         }
       }
       //Collisions des projectiles du joueur avec les ennemis
@@ -291,6 +292,7 @@ namespace TP3
           {
             ennemisADetruire.Add(ennemi);
             projectilesADetruire.Add(projectile);
+            ennemi.PlayDeath();
           }
         }
       }

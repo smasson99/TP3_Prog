@@ -21,6 +21,7 @@ namespace TP3
     private int nbBombs;
     private Music soundBomb;
     private static Random rnd = new Random();
+    private DateTime bombReload;
     //Propriétés publiques
     public const int LIFE_AT_BEGINING = 8000;
     
@@ -64,6 +65,7 @@ namespace TP3
       isAlive = true;
       nbBombs = 3;
       soundBomb = new Music(@"data//Fire_smartbomb.wav");
+      bombReload = DateTime.Now;
       
       //Initialisation visuelle du joueur
       this[0]= new Vector2f(-7,20);
@@ -99,11 +101,25 @@ namespace TP3
       {
         Fire(gw, deltaT);
       }
+      if (Keyboard.IsKeyPressed(Keyboard.Key.BackSlash))
+      {
+        FireBomb(gw);
+      }
       return isAlive;
     }
     private void FireBomb(GW gw)
     {
-      //A COMPLETER
+      if (bombReload < DateTime.Now && nbBombs != 0)
+      {
+        soundBomb.Play();
+        for (int i = 0; i < 125; i++)
+        {
+          gw.AddProjectile(new Projectile(CharacterType.HERO, Position.X, Position.Y, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B,
+          (byte)rnd.Next(25, 255 + 1)), 7.50f, rnd.Next(0, 360 + 1)));
+        }
+        //nbBombs--;
+        bombReload = DateTime.Now.AddSeconds(1.5f);
+      }
     }
   }
 }

@@ -16,7 +16,14 @@ namespace TP3
     public virtual float Angle
     {
       get { return shape.Rotation; }
-      set { shape.Rotation =value ; }
+      set 
+      {
+        shape.Rotation = value;
+        if (shape.Rotation > 360)
+        {
+          shape.Rotation = 360 - shape.Rotation;
+        }
+      }
     }
 
     protected Drawable(float posX, float posY, uint nbVertices, Color color)
