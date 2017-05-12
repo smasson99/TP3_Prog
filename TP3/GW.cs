@@ -101,8 +101,8 @@ namespace TP3
       }
       // ppoulin
       // Chargement de la StringTable. A décommenter au moment opportun
-      //if( ErrorCode.OK == StringTable.GetInstance().Parse(File.ReadAllText("Data/st.txt")) )
-      //{
+      if( ErrorCode.OK == StringTable.GetInstance().Parse(File.ReadAllText("Data/st.txt")) )
+      {
         window.SetActive();
         
         while (window.IsOpen)
@@ -114,7 +114,7 @@ namespace TP3
           Draw();
           window.Display();
         }
-      //}
+      }
     }
     
     public void Draw()

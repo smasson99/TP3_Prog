@@ -15,48 +15,63 @@ namespace TP3
 {
     public class StringTable
     {
-        //Propriétés
-        private static StringTable instance;
-        //private Language languageCourant;
-        private string file = @"data//st.txt";
-        public static StringTable GetInstance()
-        {
-            if (instance == null)
-                instance = new StringTable();
-            return instance;
-        }
-        private StringTable()
-        {
-          
-        }
-    public string GetValue(Language currentlanguage, string id)
+    //Propriétés
+    private string file;
+    private Dictionary<string, string> dictionnaire;
+    private static StringTable instance;
+    private Language[] laguages = new Language[] { Language.English, Language.French };
+
+    //Méthodes
+    public static StringTable GetInstance()
     {
-      //Initialisation des variables nécessaires
-      string[] lignes = File.ReadAllLines(file);
-      string resultat = "";
-      //Trie du tableau pour trouver l'ID correspondant
-      for (int position = 0; position < lignes.Length; position++)
+        if (instance == null)
+            instance = new StringTable();
+        return instance;
+    }
+    private StringTable()
+    {
+      dictionnaire = new Dictionary<string, string>();
+    }
+    public ErrorCode Parse(string readFile)
+    {
+      try
       {
-        if (lignes[position].Substring(0, lignes[position].IndexOf('=')) == id)
+        File.Exists(readFile);
+      }
+      catch (NotSupportedException)
+      {
+        return ErrorCode.BAD_FILE_FORMAT;
+        throw;
+      }
+      ErrorCode reaction = ErrorCode.OK;
+      if (readFile == null || readFile.Length == 0)
+      {
+        return ErrorCode.MISSING_FIELD;
+      }
+      else
+      {
+        //Initialisation des variables nécessaires
+        string[] lignes = readFile.Split( new string[] {"ID_", "\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+        
+        for (int i = 0; i < lignes.Length; i++)
         {
-          //En fonction de la langue, retourner le mot qui convient
-          if ((int)currentlanguage == 0) //Français
-          {
-            int index = lignes[position].IndexOf('>')+1;
-            resultat = lignes[position].Substring(index, lignes[position].Length-index);
-            int index2 = resultat.IndexOf('-');
-            resultat = resultat.Substring(0, index2);
-          }
-          else if ((int)currentlanguage == 1) //Anglais
-          {
-            int index = lignes[position].IndexOf('>') + 1;
-            resultat = lignes[position].Substring(index, lignes[position].Length - index);
-            int index2 = resultat.LastIndexOf('-')+1;
-            resultat = resultat.Substring(index2, resultat.Length-index2);
-          }
+          //Trie du tableau pour trouver l'ID courant
+          string ligneActuelle = lignes[i];
+          string idCourant = "ID_" + ligneActuelle.Substring(0, ligneActuelle.IndexOf('='));
+          //Raccourcir la chaine
+          int index = ligneActuelle.IndexOf('>') + 1;
+          ligneActuelle = ligneActuelle.Substring(index, ligneActuelle.Length - index);
+          //Ajouter au dictionnaire la chaine selon l'ID
+          dictionnaire.Add(idCourant, ligneActuelle);
         }
       }
-      return resultat;
+      return reaction;
+    }
+    public string GetValue(Language currentlanguage, string id)
+    {
+      string ligneVoulue = dictionnaire[id];
+      string[] motTraduction = ligneVoulue.Split(new string[] {"---"}, StringSplitOptions.RemoveEmptyEntries);
+      return motTraduction[(int)currentlanguage];
     }
   }
 }
