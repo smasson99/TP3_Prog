@@ -8,38 +8,63 @@ using SFML.Graphics;
 
 namespace TP3
 {
-  public class Particle
+  public class Particle : Movable
   {
-    //Propriétés
-    private float dureeVie;
-    private Shape shape;
-    private DateTime debutVie;
-    
-    //Méthodes
-    public Particle(float posX, float posY, uint nbVertices, Color color, float dimension, bool hasTexture, float dureeVie)
+    private Color color;
+    static float ProjectileSpeed;
+    private static Random rnd = new Random();
+    static float reductionAlpha;
+    DateTime tempsVie;
+
+    /// <summary>
+    /// Constructeur initialisant les variables et l'affichage d'une particule
+    /// </summary>
+    /// <param name="posX">Position en X de la particule</param>
+    /// <param name="posY">Position en Y de la particule</param>
+    /// <param name="nbVertices">Nombre de côtés de la particule</param>
+    /// <param name="color">Couleur de la particule</param>
+    /// <param name="speed">Vitesse de déplacement de la particule</param>
+    /// <param name="size">Taille de la particule</param>
+    /// <param name="angle">L'angle de la particule</param>
+    public Particle(float posX, float posY, uint nbVertices, Color color, float speed, float size, float angle)
+    : base(posX, posY, nbVertices, color, speed)
     {
-      //Initialisation des variables de base
-      if (nbVertices >= 4)
-        shape = new RectangleShape(new Vector2f(dimension, dimension));
-      this.dureeVie = dureeVie;
-      debutVie = DateTime.Now;
-      
+      //Initialisation des variables
+      Angle = angle;
+      ProjectileSpeed = speed;
+      this.color = color;
+      reductionAlpha = 5.00f;
       ////Initialisation visuelle du projectile
-      if (hasTexture)
-        shape.Texture = new Texture(@"data//Particle.tga");
-      shape.FillColor = color;
-      shape.Position = new Vector2f(posX, posY);
+      this[0] = new Vector2f(-size, -size);
+      this[2] = new Vector2f(size, size);
+      this[3] = new Vector2f(size, -size);
+      this[1] = new Vector2f(-size, size);
+      //Initialisation de la durée de vie de la particule
+      tempsVie = DateTime.Now.AddSeconds(1.25f);
     }
-    public void Draw(RenderWindow window)
+
+    public bool Update(Single deltaT, GW gw)
     {
-      window.Draw(shape);
-    }
-    public bool Update(GW gw)
-    {
-      if (DateTime.Now >= debutVie.AddSeconds(dureeVie))
+      //Si le projectile sort de la limite du jeu, alors retirer celui-ci du jeu
+      if (gw.Contains(this) == false || color.A <= 25)
+      {
         return false;
+      }
+      //Sinon, on ajoute de nouvelles particules tout en le faisant avancer.
       else
+      {
+        if (rnd.Next(1, 15 +1) == 1)
+        {
+          Angle += 7.50f;
+        }
+        else if (rnd.Next(1, 15 + 1) == 1)
+        {
+          Angle -= 7.50f;
+        }
+        Advance(ProjectileSpeed);
+        color.A -= (byte)(reductionAlpha);
         return true;
+      }
     }
   }
 }

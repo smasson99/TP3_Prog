@@ -45,10 +45,10 @@ namespace TP3
       //Initialisation visuelle de l'ennemi
       for (int i = 0; i < (int)nbVertices; i++)
       {
-        //double angle = (2 * Math.PI) /nbVertices * 360.00f;
-        //float x = size * (float)Math.Cos(angle);
-        //float y = size * (float)Math.Sin(angle);
-        //this[(uint)i] = new Vector2f(x, y);
+        double angle = (2 * Math.PI) / nbVertices * i;
+        float x = size * (float)Math.Cos(angle);
+        float y = size * (float)Math.Sin(angle);
+        this[(uint)i] = new Vector2f(x, y);
       }
       
     }

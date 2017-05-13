@@ -265,7 +265,7 @@ namespace TP3
       else
       {
         playerIdle = true;
-        speedBuff = 1.00f;
+        speedBuff = 0.50f;
       }
       foreach (Star etoile in stars)
       {
@@ -320,7 +320,7 @@ namespace TP3
       //Particules
       foreach (Particle particule in particules)
       {
-        bool nePasDetruire = particule.Update(this);
+        bool nePasDetruire = particule.Update(DELTA_T, this);
         if (nePasDetruire == false)
         {
           particulesADetruire.Add(particule);

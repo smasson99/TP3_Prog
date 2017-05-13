@@ -13,7 +13,7 @@ namespace TP3
   {
     #region:Propriétés
     //Propriétés statiques
-    public static float HeroSpeed = 0.2f;
+    public static float HeroSpeed = 0.20f;
     static Color HeroColor = Color.Cyan;
     //Propriétés privées
     private bool isAlive;
@@ -74,9 +74,9 @@ namespace TP3
     }
     public bool Update(Single deltaT, GW gw)
     {
-      //A COMPLETER
       //Initialisation de l'effet de particule
-      gw.AddParticle(new Particle(Position.X-12.50f, Position.Y-12.50f, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B, (byte)rnd.Next(25, 225+1)), 25.00f, true, 0.07f));
+      gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B,
+      (byte)rnd.Next(25, 255 + 1)), 5.35f, 1.25f, -rnd.Next(180-(int)Angle-5, 180-(int)Angle+5 + 1)));
       if (gw.PlayerIdle)
       {
         Advance(2);
@@ -109,13 +109,13 @@ namespace TP3
     }
     private void FireBomb(GW gw)
     {
-      if (bombReload < DateTime.Now && nbBombs != 0)
+      if (bombReload < DateTime.Now && nbBombs > 0)
       {
         soundBomb.Play();
         for (int i = 0; i < 125; i++)
         {
           gw.AddProjectile(new Projectile(CharacterType.HERO, Position.X, Position.Y, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B,
-          (byte)rnd.Next(25, 255 + 1)), 7.50f, rnd.Next(0, 360 + 1)));
+          (byte)rnd.Next(25, 255 + 1)), 7.50f, 3.50f, rnd.Next(0, 360 + 1)));
         }
         //nbBombs--;
         bombReload = DateTime.Now.AddSeconds(1.5f);
