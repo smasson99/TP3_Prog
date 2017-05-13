@@ -77,6 +77,7 @@ namespace TP3
       //Initialisation de l'effet de particule
       gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(HeroColor.R, HeroColor.G, HeroColor.B,
       (byte)rnd.Next(25, 255 + 1)), 5.35f, 1.25f, -rnd.Next(180-(int)Angle-5, 180-(int)Angle+5 + 1)));
+      //Avancer le joueur en fonction de son stade d'accélération (nulle dans ce cas-ci)
       if (gw.PlayerIdle)
       {
         Advance(2);
@@ -101,7 +102,8 @@ namespace TP3
       {
         Fire(gw, deltaT);
       }
-      if (Keyboard.IsKeyPressed(Keyboard.Key.BackSlash))
+
+      if (Keyboard.IsKeyPressed(Keyboard.Key.Return))
       {
         FireBomb(gw);
       }

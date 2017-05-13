@@ -27,6 +27,8 @@ namespace TP3
 
     // Propriétés pour la partie
     private DateTime debut = DateTime.Now;
+    private DateTime tempsRespawn = DateTime.Now;
+    bool isStarting;
     float totalTime = 0;
 
     // Il en manque BEAUCOUP
@@ -83,6 +85,7 @@ namespace TP3
 
     public GW()
     {
+      isStarting = true;
       text = new Text("", font); 
       window = new RenderWindow(new SFML.Window.VideoMode(WIDTH, HEIGHT), "GW");
       window.Closed += new EventHandler(OnClose);
@@ -167,7 +170,7 @@ namespace TP3
 
     private void SpawnEnemies(int nbNormalEnemies, int nbBasics)
     {
-      //Vérifier d'abord si le nombre d'ennemis non-basiques conviennent à 5
+      //Ajouter le bon nombre d'ennemis basiques
       //Initialisation des variables
       int basicsCourants = 0;
       foreach (Enemy ennemi in ennemis)
@@ -329,10 +332,19 @@ namespace TP3
       #endregion
       #region Spawning des nouveaux ennemis
       // On veut avoir au minimum 5 ennemis (n'incluant pas les triangles). Il faut les ajouter ici
-      SpawnEnemies(5, 2);
+      if (isStarting)
+      {
+        isStarting = false;
+        SpawnEnemies(5, 2);
+      }
       #endregion
       #region Ajouts
       // Ajouts des projectiles, ennemis, etc
+      if (DateTime.Now >= tempsRespawn)
+      {
+        tempsRespawn = DateTime.Now.AddSeconds(r.Next(4, 8));
+        SpawnEnemies(5, 2);
+      }
       #endregion
 
       // Retourner true si le héros est en vie, false sinon.

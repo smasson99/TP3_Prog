@@ -11,24 +11,57 @@ namespace TP3
 {
   public class BasicEnemy:Enemy
   {
-    //Proprietés
+    #region:proprietes
+    //Proprietés Statiques
+    /// <summary>
+    /// Représente la vitesse de déplacement de l'ennemi basique
+    /// </summary>
     static float BasicEnemySpeed;
+    /// <summary>
+    /// Représente l'emplacement du fichier de l'effet sonore du spawn de l'ennemi basique
+    /// </summary>
     static Music spawnMusic;
+    //Propriétés privées
+    /// <summary>
+    /// Représente l'angle qu'il faut atteindre pour se rendre à une position précise
+    /// </summary>
     private float angleCible;
+    /// <summary>
+    /// Représente la cible à atteindre
+    /// </summary>
     private Vector2f cible;
+    /// <summary>
+    /// Représente la durée du stade de spawning de l'ennemi de base
+    /// </summary>
     private DateTimeOffset timeSpawn;
-    private DateTimeOffset timeInvMax;
+    /// <summary>
+    /// Représente la durée du stade de chasse de l'ennemi de base
+    /// </summary>
     private DateTimeOffset timeChase;
+    /// <summary>
+    /// Représente la durée du stade d'investigation de l'ennemi de base
+    /// </summary>
+    private DateTimeOffset timeInvMax;
+    #endregion
 
+    #region:methodes
     //Méthodes
-
+    /// <summary>
+    /// Constructeur permettant d'initialiser les propriétés 
+    /// statiques de la classe héritée: "BasicEnemy"
+    /// </summary>
     static BasicEnemy()
     {
       BasicEnemySpeed = 0.75f;
       spawnMusic = new Music(@"data//Enemy_spawn_orange.wav");
       spawnMusic.Volume = 45.25f;
     }
-
+    /// <summary>
+    /// Constructeur dont le rôle est d'initialiser les variables de base.
+    /// </summary>
+    /// <param name="posX">Représente la postition en X de l'ennemi de base</param>
+    /// <param name="posY">Représente la postition en Y de l'ennemi de base</param>
+    /// <param name="angle">Représente l'inclinaison de l'angle de l'ennemi de base</param>
     public BasicEnemy(Single posX, Single posY, Single angle)
     :base(posX, posY, 3, 15.00f, new Color(252, 130, 0), 1.00f)
     {
@@ -36,10 +69,17 @@ namespace TP3
       Angle = angle;
       timeSpawn = new DateTimeOffset(DateTime.Now.AddSeconds(0.20f));
     }
-
+    /// <summary>
+    /// Fonction dont le rôle est d'assurer le comportement de l'ennemi de base en toutes 
+    /// cirsonstances. L'ennemi suivra un parcourt aléatoire lorsqu'il ne détectera pas le 
+    /// joueur et foncera sur celui-ci s'il le perçoit tout en ouvrant le feu. Retourner VRAI 
+    /// si l'ennemi est toujours considéré comme vivant.
+    /// </summary>
+    /// <param name="deltaT">Représente la vitesse de rafraichissement du jeu</param>
+    /// <param name="gw">Représente le jeu</param>
+    /// <returns>Vaux VRAI si l'ennemi est toujours considéré comme viable et FAUX dans le cas contraire</returns>
     public override bool Update(Single deltaT, GW gw)
     {
-      //A COMPLETE
       //Initialisation de l'effet de particule
       gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(enemyColor.R, enemyColor.G, enemyColor.B,
       (byte)rnd.Next(25, 255 + 1)), 5.35f, 0.55f, -rnd.Next(180 - (int)Angle - 5, 180 - (int)Angle + 5 + 1)));
@@ -103,5 +143,6 @@ namespace TP3
       }
       return true;
     }
+    #endregion
   }
 }
