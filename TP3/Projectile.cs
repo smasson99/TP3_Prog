@@ -48,7 +48,8 @@ namespace TP3
       //Sinon, on ajoute de nouvelles particules tout en le faisant avancer.
       else
       {
-        //gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(color.R, color.G, color.B, (byte)rnd.Next(25, 255 + 1)), 3.50f, true, 0.25f));
+        gw.AddParticle(new Particle(Position.X, Position.Y, 4, new Color(color.R, color.G, color.B,
+        (byte)rnd.Next(25, 255 + 1)), 5.35f, 0.55f, -rnd.Next(180 - (int)Angle - 5, 180 - (int)Angle + 5 + 1)));
         Advance(ProjectileSpeed);
         return true;
       }

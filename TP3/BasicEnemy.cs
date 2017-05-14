@@ -54,7 +54,7 @@ namespace TP3
     {
       BasicEnemySpeed = 0.75f;
       spawnMusic = new Music(@"data//Enemy_spawn_orange.wav");
-      spawnMusic.Volume = 45.25f;
+      spawnMusic.Volume = 20.00f;
     }
     /// <summary>
     /// Constructeur dont le rôle est d'initialiser les variables de base.

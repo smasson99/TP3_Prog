@@ -12,7 +12,7 @@ namespace TP3
   {
     #region:propriétes
     //Propriétés statiques privées
-    private static Music fireSound;
+    protected static Music fireSound;
     //Propriétés privées
     private CharacterType type;
     private Color color;
@@ -43,7 +43,7 @@ namespace TP3
     static Character()
     {
       fireSound = new Music(@"data//Fire_normal.wav");
-      fireSound.Volume = 15.25f;
+      fireSound.Volume = 5.00f;
     }
     /// <summary>
     /// Constructeur dont le rôle est d'initialiser les propriétés de base
@@ -91,7 +91,7 @@ namespace TP3
     /// <param name="deltaT">Représente le multiplicateur de vitesse de rafraichissement
     /// du jeu</param>
     /// <return>Retourne un booléen vallant Vrai si le tir est fait et Faux si le tir n'est pas fait </return>
-    public bool Fire(GW gw, Single deltaT)
+    public virtual bool Fire(GW gw, Single deltaT)
     {
       //Si la demande de tir est supérieure ou égale au dernier moment de tir + la cadence, alors
       if (DateTime.Now >= lastFire.AddSeconds(fireDelay))

@@ -25,6 +25,9 @@ namespace TP3
     Font font = new Font("Data/emulogic.ttf");
     Text text = null;
 
+    // AUDIO
+    private static Music gameOver = new Music(@"data//Game_over.wav");
+
     // Propriétés pour la partie
     private DateTime debut = DateTime.Now;
     private DateTime tempsRespawn = DateTime.Now;
@@ -56,6 +59,8 @@ namespace TP3
     //Ajout des listes du contenu du jeu
     List<Star> stars = new List<Star>();
     List<Projectile> projectiles = new List<Projectile>();
+    List<Projectile> projectilesBomb = new List<Projectile>();
+    List<Projectile> projectilesBombADetruire = new List<Projectile>();
     List<Projectile> projectilesADetruire = new List<Projectile>();
     List<Particle> particules = new List<Particle>();
     List<Particle> particulesADetruire = new List<Particle>();
@@ -85,7 +90,10 @@ namespace TP3
 
     public GW()
     {
+      //Initialisation des variables
       isStarting = true;
+      gameOver.Volume = 20.00f;
+      //Préparation de la fenêtre
       text = new Text("", font); 
       window = new RenderWindow(new SFML.Window.VideoMode(WIDTH, HEIGHT), "GW");
       window.Closed += new EventHandler(OnClose);
@@ -131,6 +139,10 @@ namespace TP3
       {
         projectile.Draw(window);
       }
+      foreach (Projectile projectile in projectilesBomb)
+      {
+        projectile.Draw(window);
+      }
       foreach (Particle particule in particules)
       {
         particule.Draw(window);
@@ -170,17 +182,28 @@ namespace TP3
 
     private void SpawnEnemies(int nbNormalEnemies, int nbBasics)
     {
-      //Ajouter le bon nombre d'ennemis basiques
       //Initialisation des variables
-      int basicsCourants = 0;
+      int nbBasicsCourants = 0;
+      int nbSquares = 0;
+      int nbCircles = 0;
+      //Compter le nombre d'ennemis selon leur type
       foreach (Enemy ennemi in ennemis)
       {
         if (ennemi is BasicEnemy)
         {
-          basicsCourants++;
+          nbBasicsCourants++;
+        }
+        else if (ennemi is Square)
+        {
+          nbSquares++;
+        }
+        else if (ennemi is Circle)
+        {
+          nbCircles++;
         }
       }
-      if (basicsCourants < nbBasics)
+      //S'assurer qu'il ne manque pas d'ennemis basiques sur le terrain
+      if (nbBasicsCourants < nbBasics)
       {
         //Initialisation des positions
         Vector2f[] startPositions = new Vector2f[] { new Vector2f(0, r.Next(0, HEIGHT)), new Vector2f(WIDTH, r.Next(0, HEIGHT)),
@@ -198,11 +221,39 @@ namespace TP3
           angle = -90;
         ennemis.Add(new BasicEnemy(position.X, position.Y, angle));
       }
+      //S'assurer qu'il y ait suffisament assez d'ennemis courants au jeu
+      if (nbNormalEnemies-(nbSquares) > 0)
+      {
+        //Initialisation des positions
+        Vector2f[] startPositions = new Vector2f[] { new Vector2f(0, r.Next(0, HEIGHT)), new Vector2f(WIDTH, r.Next(0, HEIGHT)),
+        new Vector2f(r.Next(0, WIDTH), 0), new Vector2f(r.Next(0, WIDTH), HEIGHT) };
+        //Lister les ennemis normaux possibles:
+        EnemyType[] ennemisPossibles = new EnemyType[] { EnemyType.SQUARE, EnemyType.CIRCLE};
+        Vector2f position = startPositions[r.Next(0, startPositions.Length)];
+        float angle;
+        if (position.X == 0)
+          angle = 0.00f;
+        else if (position.X == WIDTH)
+          angle = -180.0f;
+        else if (position.Y == 0)
+          angle = 90f;
+        else //position.Y == HEIGHT
+          angle = -90;
+        int indexREnemy = r.Next(0, ennemisPossibles.Length);
+        if (ennemisPossibles[indexREnemy] == EnemyType.SQUARE)
+        {
+          ennemis.Add(new Square(position.X, position.Y, angle));
+        }
+        else if (nbCircles == 0 && ennemisPossibles[indexREnemy] == EnemyType.CIRCLE)
+        {
+          ennemis.Add(new Circle(position.X, position.Y, angle));
+        }
+      }
     }
 
-    public void AddBomb()
+    public void AddBomb(Projectile bombProjectile)
     {
-      
+      projectilesBomb.Add(bombProjectile);
     }
 
     /// <summary>
@@ -231,6 +282,13 @@ namespace TP3
           projectiles.Remove(toDelete);
         }
       }
+      foreach (Projectile toDelete in projectilesBombADetruire)
+      {
+        if (projectilesBombADetruire.Contains(toDelete))
+        {
+          projectilesBomb.Remove(toDelete);
+        }
+      }
       foreach (Particle toDelete in particulesADetruire)
       {
         if (particulesADetruire.Contains(toDelete))
@@ -245,6 +303,7 @@ namespace TP3
       }
       //Sauver la mémoire en rénitialisant la liste
       projectilesADetruire = new List<Projectile>();
+      projectilesBombADetruire = new List<Projectile>();
       particulesADetruire = new List<Particle>();
       ennemisADetruire = new List<Enemy>();
       #endregion
@@ -282,8 +341,8 @@ namespace TP3
         if (hero.Intersects(ennemi))
         {
           ennemisADetruire.Add(ennemi);
-          hero.Life = hero.Life - 10;
-          ennemi.PlayDeath();
+          hero.Life = hero.Life - r.Next(15, 22+1);
+          ennemi.PlayDeath(this);
         }
       }
       //Collisions des projectiles du joueur avec les ennemis
@@ -295,8 +354,29 @@ namespace TP3
           {
             ennemisADetruire.Add(ennemi);
             projectilesADetruire.Add(projectile);
-            ennemi.PlayDeath();
+            ennemi.PlayDeath(this);
           }
+        }
+      }
+      //Collisions des projectiles de bombe du joueur avec les ennemis
+      foreach (Projectile projectile in projectilesBomb)
+      {
+        foreach (Enemy ennemi in ennemis)
+        {
+          if (projectile.Intersects(ennemi))
+          {
+            ennemisADetruire.Add(ennemi);
+            ennemi.PlayDeath(this);
+          }
+        }
+      }
+      //Collisions des projectiles de l'ennemi avec le joueur
+      foreach (Projectile projectile in projectiles)
+      {
+        if (projectile.Type == CharacterType.ENNEMI && projectile.Intersects(hero))
+        {
+          hero.Life -= r.Next(1, 15+1);
+          projectilesADetruire.Add(projectile);
         }
       }
       #endregion
@@ -308,6 +388,15 @@ namespace TP3
         if (nePasDetruire == false)
         {
           projectilesADetruire.Add(projectile);
+        }
+      }
+      //Projectiles de Bombe
+      foreach (Projectile projectile in projectilesBomb)
+      {
+        bool nePasDetruire = projectile.Update(DELTA_T, this);
+        if (nePasDetruire == false)
+        {
+          projectilesBombADetruire.Add(projectile);
         }
       }
       //Personnages
@@ -348,6 +437,8 @@ namespace TP3
       #endregion
 
       // Retourner true si le héros est en vie, false sinon.
+      if (hero.IsAlive == false)
+        gameOver.Play();
       return hero.IsAlive;
     }
   }

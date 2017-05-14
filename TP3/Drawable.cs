@@ -19,10 +19,6 @@ namespace TP3
       set 
       {
         shape.Rotation = value;
-        if (shape.Rotation > 360)
-        {
-          shape.Rotation = 360 - shape.Rotation;
-        }
       }
     }
 

@@ -63,6 +63,7 @@
     <Compile Include="Circle.cs" />
     <Compile Include="Drawable.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyType.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="GW.cs" />
     <Compile Include="Hero.cs" />

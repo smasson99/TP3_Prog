@@ -15,6 +15,7 @@ namespace TP3
     private static Random rnd = new Random();
     static float reductionAlpha;
     DateTime tempsVie;
+    protected bool hasLifeLine;
 
     /// <summary>
     /// Constructeur initialisant les variables et l'affichage d'une particule
@@ -29,24 +30,30 @@ namespace TP3
     public Particle(float posX, float posY, uint nbVertices, Color color, float speed, float size, float angle)
     : base(posX, posY, nbVertices, color, speed)
     {
-      //Initialisation des variables
+      //Initialisation des variables de base
       Angle = angle;
       ProjectileSpeed = speed;
       this.color = color;
       reductionAlpha = 5.00f;
+      hasLifeLine = false;
       ////Initialisation visuelle du projectile
-      this[0] = new Vector2f(-size, -size);
-      this[2] = new Vector2f(size, size);
-      this[3] = new Vector2f(size, -size);
-      this[1] = new Vector2f(-size, size);
+      this[0] = new Vector2f(-5*size, -size);
+      this[2] = new Vector2f(5*size, size);
+      this[3] = new Vector2f(5*size, -size);
+      this[1] = new Vector2f(-5*size,size);
       //Initialisation de la durée de vie de la particule
       tempsVie = DateTime.Now.AddSeconds(1.25f);
     }
 
     public bool Update(Single deltaT, GW gw)
     {
-      //Si le projectile sort de la limite du jeu, alors retirer celui-ci du jeu
+      //Si le projectile sort de la limite du jeu ou devient invisible, alors retirer celui-ci du jeu
       if (gw.Contains(this) == false || color.A <= 25)
+      {
+        return false;
+      }
+      //Sinon si le projectile est limité à une durée de vie, alors s'assurer de le retirer au bon moment
+      else if (hasLifeLine && DateTime.Now > tempsVie)
       {
         return false;
       }
