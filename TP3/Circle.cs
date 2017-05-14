@@ -42,7 +42,7 @@ namespace TP3
     /// Représente la durée du stade d'investigation de l'ennemi de base
     /// </summary>
     private DateTimeOffset timeInvMax;
-    private bool canExplode = false;
+    private bool canExplode;
     #endregion
 
     #region:methodes
@@ -68,6 +68,7 @@ namespace TP3
     {
       //Initialisation des variables de base
       Angle = angle;
+      canExplode = true;
       timeSpawn = new DateTimeOffset(DateTime.Now.AddSeconds(0.20f));
     }
     /// <summary>
@@ -104,7 +105,7 @@ namespace TP3
         BasicEnemySpeed = 0.75f;
         if (canExplode)
         {
-          
+          canExplode = false;
         }
         if (Color.R != 63)
         {
@@ -134,7 +135,8 @@ namespace TP3
         {
           Rotate(BasicEnemySpeed);
         }
-        if (Angle < TargetAngle(gw.hero.Position) + 10 && Angle > TargetAngle(gw.hero.Position) - 10)
+        if (Angle < TargetAngle(gw.hero.Position) + 10 && Angle > TargetAngle(gw.hero.Position) - 10 &&
+        Math.Abs(Position.X) + 5 >= Math.Abs(gw.hero.Position.X) && Math.Abs(Position.Y) + 5 >= Math.Abs(gw.hero.Position.Y)) 
         {
           timeChase = DateTime.Now.AddSeconds(rnd.Next(12, 15 + 1));
         }
@@ -143,6 +145,7 @@ namespace TP3
       //En stade de chasse
       else if (DateTime.Now < timeChase)
       {
+        canExplode = true;
         BasicEnemySpeed = 0.75f;
         if (Color.R != 191)
         {
@@ -156,8 +159,12 @@ namespace TP3
             enemyColor.R += (byte)1;
             Color = enemyColor;
           }
+          //Tirer de façons aléatoire
+          for (int i = 0; i < 2; i++)
+          {
+            gw.AddProjectile(new Projectile(CharacterType.ENNEMI, Position.X, Position.Y, 4, enemyColor, 5.00f, this.Size/100, rnd.Next(0, 360+1)));
+          }
         }
-        
       }
       return true;
     }

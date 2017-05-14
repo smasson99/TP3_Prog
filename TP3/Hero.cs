@@ -23,7 +23,7 @@ namespace TP3
     private Music soundBomb;
     private DateTime bombReload;
     //Propriétés publiques et constantes
-    public const int LIFE_AT_BEGINING = 8000;
+    public const int LIFE_AT_BEGINING = 3500;
     
     //Propriétés C#
     /// <summary>

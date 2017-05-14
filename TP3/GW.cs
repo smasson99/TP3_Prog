@@ -13,8 +13,8 @@ namespace TP3
     // Constantes et propriétés statiques
     private bool playerIdle;
     private Language currentLanguage;
-    public const int WIDTH = 1024;
-    public const int HEIGHT = 768;
+    public const int WIDTH = 1920;
+    public const int HEIGHT = 1080;
     public const uint FRAME_LIMIT = 60;
     public float speedBuff = 1.00f;
     const float DELTA_T = 1.0f / (float)FRAME_LIMIT;
@@ -244,7 +244,7 @@ namespace TP3
         {
           ennemis.Add(new Square(position.X, position.Y, angle));
         }
-        else if (nbCircles == 0 && ennemisPossibles[indexREnemy] == EnemyType.CIRCLE)
+        else if (nbCircles < 2 && ennemisPossibles[indexREnemy] == EnemyType.CIRCLE)
         {
           ennemis.Add(new Circle(position.X, position.Y, angle));
         }
@@ -433,6 +433,19 @@ namespace TP3
       {
         tempsRespawn = DateTime.Now.AddSeconds(r.Next(4, 8));
         SpawnEnemies(5, 2);
+      }
+      foreach (Enemy ennemi in ennemisADetruire)
+      {
+        if (ennemi is Square)
+        {
+          for (int i = 0; i < 3; i++) 
+            ennemis.Add(new BasicEnemy(ennemi.Position.X, ennemi.Position.Y, ennemi.Angle));
+        }
+        else if (ennemi is Circle)
+        {
+          for (int i = 0; i < 1; i++)
+            ennemis.Add(new BasicEnemy(ennemi.Position.X, ennemi.Position.Y, ennemi.Angle));
+        }
       }
       #endregion
 
