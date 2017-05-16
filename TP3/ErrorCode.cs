@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TP3
 {
+  /// <summary>
+  /// Enum listant les codes d'erreur possibles
+  /// </summary>
   public enum ErrorCode
   {
     OK,

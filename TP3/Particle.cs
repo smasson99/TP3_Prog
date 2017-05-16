@@ -10,13 +10,20 @@ namespace TP3
 {
   public class Particle : Movable
   {
+    //Toutes les propriétés
+    #region:proprietes
+    //Propriétés privées
     private Color color;
-    static float ProjectileSpeed;
+    private DateTime tempsVie;
+    //Propriétés statiques
+    private static float ProjectileSpeed;
     private static Random rnd = new Random();
-    static float reductionAlpha;
-    DateTime tempsVie;
+    private static float reductionAlpha;
+    //Propriétés protégées
     protected bool hasLifeLine;
-
+    #endregion
+    //Toutes les méthodes
+    #region:methodes
     /// <summary>
     /// Constructeur initialisant les variables et l'affichage d'une particule
     /// </summary>
@@ -44,7 +51,13 @@ namespace TP3
       //Initialisation de la durée de vie de la particule
       tempsVie = DateTime.Now.AddSeconds(1.25f);
     }
-
+    /// <summary>
+    /// Fonction dont le rôle est de mettre à jour le projectile et de dire au jeu
+    /// si celui-ci peut être retiré ou non
+    /// </summary>
+    /// <param name="deltaT">La vitesse de rafraichissement du jeu</param>
+    /// <param name="gw">Instance représentant le jeu</param>
+    /// <returns>Booléen indiquant si le projectile peut être retiré du jeu(FAUX) ou non (VRAI)</returns>
     public bool Update(Single deltaT, GW gw)
     {
       //Si le projectile sort de la limite du jeu ou devient invisible, alors retirer celui-ci du jeu
@@ -73,5 +86,6 @@ namespace TP3
         return true;
       }
     }
+    #endregion
   }
 }

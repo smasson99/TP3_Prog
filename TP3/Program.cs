@@ -10,6 +10,7 @@ namespace TP3
   {
     static void Main(string[] args)
     {
+      //Lancer le jeu
       GW app = new GW();
       app.Run();
     }

@@ -11,6 +11,7 @@ namespace TP3
 {
   public class BasicEnemy:Enemy
   {
+    //Toutes les propriétés
     #region:proprietes
     //Proprietés Statiques
     /// <summary>
@@ -43,7 +44,7 @@ namespace TP3
     /// </summary>
     private DateTimeOffset timeInvMax;
     #endregion
-
+    //Toutes les méthodes
     #region:methodes
     //Méthodes
     /// <summary>
@@ -52,6 +53,7 @@ namespace TP3
     /// </summary>
     static BasicEnemy()
     {
+      //Initialisation des propriétés statiques
       BasicEnemySpeed = 0.75f;
       spawnMusic = new Music(@"data//Enemy_spawn_orange.wav");
       spawnMusic.Volume = 20.00f;

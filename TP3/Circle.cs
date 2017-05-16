@@ -11,6 +11,7 @@ namespace TP3
 {
   public class Circle : Enemy
   {
+    //Toutes les propriétés
     #region:proprietes
     //Propriétés Statiques
     /// <summary>
@@ -44,7 +45,7 @@ namespace TP3
     private DateTimeOffset timeInvMax;
     private bool canExplode;
     #endregion
-
+    //Toutes les méthodes
     #region:methodes
     //Méthodes
     /// <summary>
@@ -53,6 +54,7 @@ namespace TP3
     /// </summary>
     static Circle()
     {
+      //Initialisation des propriétés statiques
       BasicEnemySpeed = 0.50f;
       spawnMusic = new Music(@"data//Enemy_spawn_green.wav");
       spawnMusic.Volume = 20.00f;

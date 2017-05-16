@@ -12,6 +12,7 @@ namespace TP3
 {
   public class Square:Enemy
   {
+    //Toutes les propriétés
     #region:proprietes
     //Proprietés Statiques
     /// <summary>
@@ -45,7 +46,7 @@ namespace TP3
     private DateTimeOffset timeInvMax;
     private DateTime tirDuree;
     #endregion
-
+    //Toutes les méthodes
     #region:methodes
     //Méthodes
     /// <summary>
@@ -54,6 +55,7 @@ namespace TP3
     /// </summary>
     static Square()
     {
+      //Initialisation des propriétés statiques
       BasicEnemySpeed = 0.75f;
       spawnMusic = new Music(@"data//Enemy_spawn_purple.wav");
       spawnMusic.Volume = 20.00f;

@@ -11,11 +11,12 @@ namespace TP3
 {
   public class Hero:Character
   {
+    //Toutes les propriétés
     #region:Propriétés
     //Propriétés statiques
-    public static float HeroSpeed = 0.20f;
-    static Color HeroColor = Color.Cyan;
-    private static Random rnd = new Random();
+    public static float HeroSpeed;
+    static Color HeroColor;
+    private static Random rnd;
     //Propriétés privées
     private bool isAlive;
     private int life;
@@ -23,7 +24,7 @@ namespace TP3
     private Music soundBomb;
     private DateTime bombReload;
     //Propriétés publiques et constantes
-    public const int LIFE_AT_BEGINING = 3500;
+    public const int LIFE_AT_BEGINING = 3000;
     
     //Propriétés C#
     /// <summary>
@@ -52,6 +53,17 @@ namespace TP3
     }
     #endregion
 
+    //Toutes les méthodes
+    #region:méthodes
+    /// <summary>
+    /// Constructeur statique dont le rôle est d'initialiser les propriétés statiques de la classe
+    /// </summary>
+    static Hero()
+    {
+      HeroSpeed = 0.20f;
+      HeroColor = Color.Cyan;
+      rnd = new Random();
+    }
     /// <summary>
     /// Constructeur dont le rôle est d'instancier le joueur
     /// </summary>
@@ -96,7 +108,7 @@ namespace TP3
       {
         Advance(4.50f);
       }
-      //Reculon
+      //Reculons
       if (Keyboard.IsKeyPressed(Keyboard.Key.Down) || Keyboard.IsKeyPressed(Keyboard.Key.S))
       {
         Advance(-4.50f);
@@ -143,5 +155,6 @@ namespace TP3
         bombReload = DateTime.Now.AddSeconds(1.5f);
       }
     }
+    #endregion
   }
 }

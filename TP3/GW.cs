@@ -10,14 +10,41 @@ namespace TP3
 {
   public class GW
   {
+    //Toutes les propriétés
+    #region:proprietes
     // Constantes et propriétés statiques
+    /// <summary>
+    /// Booléen indiquant si le joueur est en stade Idle(VRAI) ou non(FAUX)
+    /// </summary>
     private bool playerIdle;
+    /// <summary>
+    /// Variable représentant le language courant le l'interface
+    /// </summary>
     private Language currentLanguage;
+    //CONSTANTES
+    /// <summary>
+    /// Représente la largeur de l'écran en pixels (la mienne, libre à vous de la changer)
+    /// </summary>
     public const int WIDTH = 1920;
+    /// <summary>
+    /// Rerpésente la hauteur de l'écran en pixels (la mienne, libre à vous de la changer)
+    /// </summary>
     public const int HEIGHT = 1080;
+    /// <summary>
+    /// Unité représentant la limitte de frame à ne pas dépasser
+    /// </summary>
     public const uint FRAME_LIMIT = 60;
+    /// <summary>
+    /// Réel représentant la vitesse d'accélération du joueur
+    /// </summary>
     public float speedBuff = 1.00f;
+    /// <summary>
+    /// Réel représentant la vitesse de rafraichissement sous forme de multiplicateur
+    /// </summary>
     const float DELTA_T = 1.0f / (float)FRAME_LIMIT;
+    /// <summary>
+    /// La variable aléatoire de la classe
+    /// </summary>
     private static Random r = new Random();
 
     // SFML
@@ -26,17 +53,35 @@ namespace TP3
     Text text = null;
 
     // AUDIO
+    /// <summary>
+    /// Représente la musique à jouer lorsque la partie est terminée
+    /// </summary>
     private static Music gameOver = new Music(@"data//Game_over.wav");
 
     // Propriétés pour la partie
+    /// <summary>
+    /// Le début du lancement du jeu
+    /// </summary>
     private DateTime debut = DateTime.Now;
+    /// <summary>
+    /// Le temps d'interval de respawn/spawn des ennemis
+    /// </summary>
     private DateTime tempsRespawn = DateTime.Now;
+    /// <summary>
+    /// Booléen indiquant si le jeu se fait lancer à l'instant(VRAI) ou non(FAUX)
+    /// </summary>
     bool isStarting;
+    /// <summary>
+    /// Entier représentant le temps de jeu en secondes
+    /// </summary>
     float totalTime = 0;
 
     // Il en manque BEAUCOUP
 
     //Ajout de propriétés C#
+    /// <summary>
+    /// Propriété C# représentant la vitesse d'accélération du joueur
+    /// </summary>
     public float SpeedBuff
     {
       get
@@ -48,6 +93,9 @@ namespace TP3
         speedBuff = value;
       }
     }
+    /// <summary>
+    /// Propriété C# indiquant si le joueur est en stade IDLE (VRAI) ou ne l'est pas (FAUX)
+    /// </summary>
     public bool PlayerIdle
     {
       get
@@ -56,26 +104,63 @@ namespace TP3
       }
     }
 
-    //Ajout des listes du contenu du jeu
+    //Ajout des listes de contenu du jeu
+    /// <summary>
+    /// Liste représentant l'ensemble des étoiles affichées à l'écran
+    /// </summary>
     List<Star> stars = new List<Star>();
+    /// <summary>
+    /// Liste représentant l'ensemble des projectiles actuellement dans le jeu
+    /// </summary>
     List<Projectile> projectiles = new List<Projectile>();
+    /// <summary>
+    /// Liste représentant l'ensemble des projectiles de bombe actuellement dans le jeu
+    /// </summary>
     List<Projectile> projectilesBomb = new List<Projectile>();
+    /// <summary>
+    /// Liste représentant l'ensemble des projectiles de bombe à détruire actuellement dans le jeu
+    /// </summary>
     List<Projectile> projectilesBombADetruire = new List<Projectile>();
+    /// <summary>
+    /// Liste représentant l'ensemble des projectiles à détruire actuellement dans le jeu
+    /// </summary>
     List<Projectile> projectilesADetruire = new List<Projectile>();
+    /// <summary>
+    /// Liste représentant l'ensemble des particules affichées à l'écran
+    /// </summary>
     List<Particle> particules = new List<Particle>();
+    /// <summary>
+    /// Liste représentant l'ensemble des particules à détruire actuellement affichées à l'écran
+    /// </summary>
     List<Particle> particulesADetruire = new List<Particle>();
+    /// <summary>
+    /// Liste représentant l'ensemble des ennemis actuellement dans le jeu
+    /// </summary>
     List<Enemy> ennemis = new List<Enemy>();
+    /// <summary>
+    /// Liste représentant l'ensemble des ennemis à détruire actuellement dans le jeu
+    /// </summary>
     List<Enemy> ennemisADetruire = new List<Enemy>();
 
     //Ajout du joueur:
+    /// <summary>
+    /// Instance représentant le joueur dans le jeu (son vaisseau ou sa forme)
+    /// </summary>
     public Hero hero = new Hero(WIDTH/2, HEIGHT/2);
-
+    #endregion
+    //Toutes les méthodes
+    #region:methodes
+    /// <summary>
+    /// Fonction dont le rôle est de s'assurer que tout soit bien fermé si l'écran est fermée
+    /// </summary>
     private void OnClose(object sender, EventArgs e)
     {
       RenderWindow window = (RenderWindow)sender;
       window.Close();
     }
-    
+    /// <summary>
+    /// Fonction dont le rôle est de déterminer certaines actions en fonction des touches entrées au clavier
+    /// </summary>
     private void OnKeyPressed(object sender, KeyEventArgs e)
     {
       if (e.Code == Keyboard.Key.F4)
@@ -87,7 +172,9 @@ namespace TP3
         currentLanguage = Language.English;
       }
     }
-
+    /// <summary>
+    /// Constructeur dont le rôle est d'initialiser les variables de base du jeu
+    /// </summary>
     public GW()
     {
       //Initialisation des variables
@@ -101,8 +188,9 @@ namespace TP3
       window.SetKeyRepeatEnabled(false);
       window.SetFramerateLimit(FRAME_LIMIT);
     }
-
-
+    /// <summary>
+    /// Fonction dont le rôle est de lancer le jeu
+    /// </summary>
     public void Run()
     {
       //Ajout des étoiles dans le jeu
@@ -115,9 +203,10 @@ namespace TP3
       if( ErrorCode.OK == StringTable.GetInstance().Parse(File.ReadAllText("Data/st.txt")) )
       {
         window.SetActive();
-        
+        //Tant que la fenêtre est ouverte
         while (window.IsOpen)
         {
+          //Afficher le contenu à l'écran
           window.Clear(Color.Black);
           window.DispatchEvents();
           if (false == Update())
@@ -127,7 +216,9 @@ namespace TP3
         }
       }
     }
-    
+    /// <summary>
+    /// Fonction dont le rôle est d'afficher le contenu à l'écran
+    /// </summary>
     public void Draw()
     {
       // Parcourir les listes appropriées pour faire afficher les éléments souhaités.
@@ -160,13 +251,11 @@ namespace TP3
       text.Position = new Vector2f(0, 10);
       text.DisplayedString = string.Format("{1} = {0,-5}", ((int)(totalTime/100)).ToString(), StringTable.GetInstance().GetValue(currentLanguage, "ID_TOTAL_TIME"));
       window.Draw(text);
-
       // Points de vie
       text.Position = new Vector2f(0, 50);
       text.DisplayedString = string.Format("{1} = {0,-4}", hero.Life.ToString(), StringTable.GetInstance().GetValue(currentLanguage,"ID_LIFE"));
       window.Draw(text);
     }
-
     /// <summary>
     /// Détermine si un Movable est situé à l'intérieur de la surface de jeu
     /// Peut être utilisée pour déterminer si les projectiles sont sortis du jeu
@@ -179,7 +268,11 @@ namespace TP3
       FloatRect r = new FloatRect(0, 0, GW.WIDTH, GW.HEIGHT);
       return r.Contains(m.Position.X, m.Position.Y);
     }
-
+    /// <summary>
+    /// Fonction dont le rôle est d'ajouter un certain nombre d'ennemis basiques et normaux au jeu
+    /// </summary>
+    /// <param name="nbNormalEnemies">Le nombre d'ennemis normaux à ajouter au jeu</param>
+    /// <param name="nbBasics">Le nombre d'ennemis basiques à ajouter au jeu</param>
     private void SpawnEnemies(int nbNormalEnemies, int nbBasics)
     {
       //Initialisation des variables
@@ -240,41 +333,56 @@ namespace TP3
         else //position.Y == HEIGHT
           angle = -90;
         int indexREnemy = r.Next(0, ennemisPossibles.Length);
+        //Dans le cas où le random a choisi le carré, ajouter un carré
         if (ennemisPossibles[indexREnemy] == EnemyType.SQUARE)
         {
           ennemis.Add(new Square(position.X, position.Y, angle));
         }
+        //Dans le cas où le random a choisi le cercle, s'assurer qu'il n'y en ait pas plus que deux
         else if (nbCircles < 2 && ennemisPossibles[indexREnemy] == EnemyType.CIRCLE)
         {
           ennemis.Add(new Circle(position.X, position.Y, angle));
         }
       }
     }
-
+    /// <summary>
+    /// Fonction dont le rôle est d'ajouter un projectile de bombe à la liste des 
+    /// projectiles de bombe du jeu
+    /// </summary>
+    /// <param name="bombProjectile">Le projectile à ajouter</param>
     public void AddBomb(Projectile bombProjectile)
     {
+      //Ajouter le projectile à la liste des projectiles
       projectilesBomb.Add(bombProjectile);
     }
-
     /// <summary>
     /// Fonction dont le rôle est d'ajouter un projectile à la
     /// liste des projectiles courants
     /// </summary>
-    /// <param name="projectile"></param>
+    /// <param name="projectile">Le projectile à ajouter</param>
     public void AddProjectile(Projectile projectile)
     {
+      //Ajouter le projectile à la liste des projectiles
       projectiles.Add(projectile);
     }
+    /// <summary>
+    /// Fonction dont le rôle est d'ajouter une particules au jeu
+    /// </summary>
+    /// <param name="particule">La particule à ajouter</param>
     public void AddParticle(Particle particule)
     {
+      //Ajouter la particule à la liste des particules
       particules.Add(particule);
     }
-
+    /// <summary>
+    /// Fonction dont le rôle est d'updater le jeu et tous ses composants
+    /// </summary>
+    /// <returns></returns>
     public bool Update()
     {
-      // A compléter
       #region Init
-      // Vidage de toutes les listes contenant les ennemis et projectiles à ajouter et enlever.
+      //Vider de la liste des projectiles les projectiles correspondants à ceux qui doivent être détruits, idem 
+      //pour les listes de particules, d'ennemis et des projectiles de bombes
       foreach (Projectile toDelete in projectilesADetruire)
       {
         if (projectilesADetruire.Contains(toDelete))
@@ -448,11 +556,11 @@ namespace TP3
         }
       }
       #endregion
-
       // Retourner true si le héros est en vie, false sinon.
       if (hero.IsAlive == false)
         gameOver.Play();
       return hero.IsAlive;
     }
+    #endregion
   }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP3", "TP3\TP3.csproj", "{05E74E1E-87EF-4787-A050-C76B1DAFC948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringTableTests", "StringTableTests\StringTableTests.csproj", "{F88CFB32-A1D4-4978-8B3F-D35B17C217D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP3Tests", "StringTableTests\TP3Tests.csproj", "{F88CFB32-A1D4-4978-8B3F-D35B17C217D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

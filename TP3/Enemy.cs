@@ -10,6 +10,7 @@ namespace TP3
 {
   public class Enemy:Character
   {
+    //Toutes les propriétés
     #region:proprietes
     //Propriétés statiques
     private bool isSpawning;
@@ -35,19 +36,20 @@ namespace TP3
       }
     }
     #endregion
-
+    //Toutes les méthodes
     #region:methodes
     //Méthodes
     /// <summary>
-    /// Constructeur statique dont le rôle est d'initialiser les variables statiques de la classe
+    /// Constructeur statique dont le rôle est d'initialiser les propriétés statiques de la classe
     /// </summary>
     static Enemy()
     {
+      //Initialisation des propriétés statiques
       explodeMusic = new Music(@"data//enemy_explode.wav");
       explodeMusic.Volume = 10.00f;
     }
     /// <summary>
-    /// Constructeur dont le but est d'initialiser l'ennemi selon les valeurs de base. Le visuelle 
+    /// Constructeur dont le but est d'initialiser l'ennemi selon les valeurs de base. Le visuel 
     /// des ennemis dépend aussi de ce constructeur, qui s'adaptera en fonction des paramètres entrés
     /// </summary>
     /// <param name="posX">La position en X de l'ennemi</param>

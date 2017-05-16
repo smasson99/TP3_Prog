@@ -10,9 +10,24 @@ namespace TP3
 {
   public abstract class Drawable
   {
-    ConvexShape shape = null;
+    /// <summary>
+    /// Propriété représentant la forme de base
+    /// </summary>
+    private ConvexShape shape = null;
+
+    /// <summary>
+    /// Propriété C# représentant la position en X et en Y de la forme
+    /// </summary>
     public Vector2f Position { get; set;}
+
+    /// <summary>
+    /// Propriété C# représentant la couleur de la forme
+    /// </summary>
     public Color Color { get { return shape.FillColor; } set { shape.FillColor = value; } }
+
+    /// <summary>
+    /// Propriété C# représentant l'angle vers lequel la forme est positionnée
+    /// </summary>
     public virtual float Angle
     {
       get { return shape.Rotation; }
@@ -22,6 +37,13 @@ namespace TP3
       }
     }
 
+    /// <summary>
+    /// Constructeur dont le rôle est d'initialiser les variables de base
+    /// </summary>
+    /// <param name="posX">Position de la forme en X</param>
+    /// <param name="posY">Position de la forme en Y</param>
+    /// <param name="nbVertices">Nombre de côtés de la forme</param>
+    /// <param name="color">Couleur de la forme</param>
     protected Drawable(float posX, float posY, uint nbVertices, Color color)
     {
       Position = new Vector2f(posX, posY);
@@ -30,12 +52,21 @@ namespace TP3
       Angle = 0;
     }
     
+    /// <summary>
+    /// Créer la forme selon les paramètres entrés
+    /// </summary>
+    /// <param name="index">Le numéro du sommet de la forme</param>
+    /// <returns></returns>
     public Vector2f this[uint index]
     {
       get { return shape.GetPoint(index); }
       set { shape.SetPoint(index, value); }
     }
 
+    /// <summary>
+    /// Afficher à l'écran la forme
+    /// </summary>
+    /// <param name="window"></param>
     public virtual void Draw(RenderWindow window)
     {
       shape.Position = Position;      
